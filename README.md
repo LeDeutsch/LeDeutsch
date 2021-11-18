@@ -1,10 +1,4 @@
 ### Hi there 👋
- ##### Code de test
- int main()
-{
-    printf("Hello world!\n");
-    return 0;
-}
 <!--
 **LeDeutsch/LeDeutsch** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
