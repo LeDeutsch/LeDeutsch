@@ -1,4 +1,8 @@
 ### Hi there 👋
+
+![alt text](rss/image/blackcaterased.png)
+![alt text](rss/image/whitecaterased.png)
+
 <!--
 **LeDeutsch/LeDeutsch** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
