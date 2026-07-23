@@ -90,7 +90,7 @@ Chaque quête placeholder à transformer en mini-jeu réel.
 
 ## 📅 Priorité conseillée pour prochaine session
 
-Karl reprendra quand il aura les vrais assets.
+Ludwig reprendra quand il aura les vrais assets.
 
 1. **Intégrer les vrais assets mascotte + fond** (Phase 1) — remplacer les placeholders
 2. **Nommer** la guilde et l'hôtesse

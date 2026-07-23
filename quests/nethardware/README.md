@@ -6,7 +6,7 @@
 
 ## 📖 Contexte
 
-L'aventurier Karl arrive à la Guilde, essoufflé.
+Un aventurier arrive à la Guilde, essoufflé.
 
 > *« Ma bête mécanique — mon ordinateur — se comporte étrangement.
 > Elle rugit, elle chauffe, elle ralentit sans raison. Nul dresseur

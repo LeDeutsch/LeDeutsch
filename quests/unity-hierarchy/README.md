@@ -7,7 +7,7 @@
 ## 📖 Contexte
 
 > *« Un grimoire Unity dont les pages ont été mélangées. Le chaos règne dans sa hiérarchie.
-> Karl a forgé un outil pour tout ranger. Tu vas voir. »*
+> Ludwig a forgé un outil pour tout ranger. Tu vas voir. »*
 
 ---
 

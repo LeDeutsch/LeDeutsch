@@ -78,7 +78,7 @@ Tous les SVG dans `assets/` sont **des placeholders volontairement moches** fait
    - Fond de guilde
    - Mascotte 6 poses
    - NPCs 2-3 silhouettes plus soignées
-2. **Nommer** la guilde et l'hôtesse (à faire par Karl entre les sessions, cool)
+2. **Nommer** la guilde et l'hôtesse (à faire par Ludwig entre les sessions, cool)
 3. **Compléter 1 ou 2 quêtes** au format mini-jeu vraiment jouable
 4. **Optionnel** — brancher l'API Claude (Haiku, très pas cher) pour que la mascotte génère ses dialogues à partir du vrai commit message + un system prompt "persona"
 
@@ -87,8 +87,8 @@ Tous les SVG dans `assets/` sont **des placeholders volontairement moches** fait
 - Le repo profil est `LeDeutsch/LeDeutsch` sur GitHub, cloné en local dans `c:/Users/lespe/OneDrive/Bureau/LeDeutsch-profile/`
 - Le workflow tourne toutes les 30 min (cron) ET à chaque push
 - Le token GitHub qu'on a utilisé pour le push a les scopes `repo` + `workflow`
-- Le nethardware-monitor de Karl est un projet **totalement séparé** — les deux n'ont aucun lien de code, juste un lien narratif (nethardware-monitor est présenté comme une quête dans le profil)
-- Karl (l'user) est étudiant à ESTIAM, à Paris, avatar anime (Ichigo de Bleach), aime l'esthétique JRPG/anime type Miku wallpaper
+- Le nethardware-monitor de Ludwig est un projet **totalement séparé** — les deux n'ont aucun lien de code, juste un lien narratif (nethardware-monitor est présenté comme une quête dans le profil)
+- Ludwig (l'user) est étudiant à ESTIAM, à Paris, avatar anime (Ichigo de Bleach), aime l'esthétique JRPG/anime type Miku wallpaper
 
 ### 📂 Fichiers clés à ouvrir en début de reprise
 
@@ -104,7 +104,7 @@ Tous les SVG dans `assets/` sont **des placeholders volontairement moches** fait
 
 ### 🎯 Décisions prises
 
-1. **Paradigme d'interaction choisi : Option A (navigation entre fichiers)** — après avoir exploré les 3 options possibles (A = nav vers file viewer, B = `<details>` in-place, C = issues+Action), Karl a choisi de garder A. Raison : *"le profil doit être clean en présentation, si quelqu'un veut jouer il navigue dans les files, tant pis pour la chrome moche"*. Décision pragmatique.
+1. **Paradigme d'interaction choisi : Option A (navigation entre fichiers)** — après avoir exploré les 3 options possibles (A = nav vers file viewer, B = `<details>` in-place, C = issues+Action), Ludwig a choisi de garder A. Raison : *"le profil doit être clean en présentation, si quelqu'un veut jouer il navigue dans les files, tant pis pour la chrome moche"*. Décision pragmatique.
 2. **Focus sur la vivacité de la scène** au lieu de chercher plus d'interactivité — les animations SMIL sont l'axe prioritaire.
 
 ### ✅ Ce qui a été ajouté
@@ -129,9 +129,9 @@ Tous les SVG dans `assets/` sont **des placeholders volontairement moches** fait
 - **Impossible d'avoir "click → scène change → reste sur profil sans refresh"** — nécessite JS/CSS custom. Trois options réelles : nav vers autre page (A), `<details>` (B), ou issue-based Action (C, avec latence)
 - **Git rebase piège important** : pendant un rebase, `--ours`/`--theirs` sont INVERSÉS par rapport à un merge. Pour garder ses commits locaux pendant un `git rebase --continue`, utiliser `git checkout --theirs <file>`. Sinon on garde la version du remote (bot) et on écrase son propre travail — c'est arrivé une fois, on a dû refaire un commit correctif.
 
-### 🚧 Ce que Karl fait entre les sessions
+### 🚧 Ce que Ludwig fait entre les sessions
 
-**Assets réels** : Karl reviendra quand il aura choisi et produit ses assets définitifs.
+**Assets réels** : Ludwig reviendra quand il aura choisi et produit ses assets définitifs.
 
 Options rappelées (voir `docs/ASSETS.md` pour détails complets) :
 - Vroid Studio (gratuit, ~1 weekend)
@@ -140,7 +140,7 @@ Options rappelées (voir `docs/ASSETS.md` pour détails complets) :
 - Stable Diffusion + LoRA
 - Packs itch.io
 
-### 📅 Agenda quand Karl revient
+### 📅 Agenda quand Ludwig revient
 
 1. **Intégrer les vrais assets** — remplacer les placeholders dans `assets/`
 2. **Nommer** la guilde et l'hôtesse

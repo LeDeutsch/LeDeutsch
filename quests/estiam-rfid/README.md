@@ -6,7 +6,7 @@
 
 ## 📖 Contexte
 
-> *« Une porte magique refuse tous les intrus. Karl a forgé les sceaux qui l'ouvrent.
+> *« Une porte magique refuse tous les intrus. Ludwig a forgé les sceaux qui l'ouvrent.
 > Sauras-tu reconnaître le bon parmi les faux ? »*
 
 ---

@@ -2,7 +2,7 @@
 
 *L'hôtesse déroule le grand parchemin devant toi.*
 
-> *« Chaque quête que tu vois ici correspond à un projet sur lequel Karl a passé du temps.
+> *« Chaque quête que tu vois ici correspond à un projet sur lequel Ludwig a passé du temps.
 > Choisis-en une, et je te ferai vivre l'aventure. »*
 
 ---
