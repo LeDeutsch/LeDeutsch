@@ -132,7 +132,7 @@ def build_dialogue_bubble(text: str) -> str:
 </g>"""
 
 
-def build_scene(pose: str, lighting: dict, workload: int, dialogue: str) -> str:
+def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None = None) -> str:
     background = read_asset("background/guild_hall.svg")
     npcs = read_asset("npcs/npc_layer.svg")
     mascot = read_asset(f"mascot/{pose}.svg")
@@ -148,6 +148,8 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str) -> str:
         f'fill="{lighting["color"]}" opacity="{lighting["opacity"]}"/>'
     )
 
+    bubble = build_dialogue_bubble(dialogue) if dialogue else ""
+
     return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {SCENE_WIDTH} {SCENE_HEIGHT}" font-family="'Segoe UI', Verdana, sans-serif">
   <title>Guilde des Aventuriers de LeDeutsch — {lighting['label']} — {pose}</title>
   {background}
@@ -155,7 +157,7 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str) -> str:
   {props}
   {lighting_rect}
   {mascot}
-  {build_dialogue_bubble(dialogue)}
+  {bubble}
 </svg>
 """
 
@@ -184,19 +186,25 @@ def update_readme_footer(pose: str, lighting_label: str, commits_24h: int) -> No
 def main() -> None:
     hour = datetime.now().hour
     hours_since, commits_24h, msg = fetch_recent_activity(GITHUB_USER)
-    pose = pick_pose(hour, hours_since, msg)
     lighting = pick_lighting(hour)
-    dialogue = pick_dialogue(pose, msg)
 
-    svg = build_scene(pose, lighting, commits_24h, dialogue)
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT.write_text(svg, encoding="utf-8")
 
-    update_readme_footer(pose, lighting["label"], commits_24h)
+    dynamic_pose = pick_pose(hour, hours_since, msg)
+    dynamic_dialogue = pick_dialogue(dynamic_pose, msg)
+    main_svg = build_scene(dynamic_pose, lighting, commits_24h, dynamic_dialogue)
+    OUTPUT.write_text(main_svg, encoding="utf-8")
+
+    for pose in VALID_POSES:
+        variant_svg = build_scene(pose, lighting, commits_24h, dialogue=None)
+        variant_path = OUTPUT.parent / f"scene_{pose}.svg"
+        variant_path.write_text(variant_svg, encoding="utf-8")
+
+    update_readme_footer(dynamic_pose, lighting["label"], commits_24h)
 
     print(
-        f"scene: pose={pose} lighting={lighting['label']} "
-        f"hour={hour} commits_24h={commits_24h} hours_since_push={hours_since}"
+        f"scene: main pose={dynamic_pose} lighting={lighting['label']} "
+        f"hour={hour} commits_24h={commits_24h} + {len(VALID_POSES)} variants"
     )
 
 
