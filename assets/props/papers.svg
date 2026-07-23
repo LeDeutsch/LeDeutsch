@@ -1,0 +1,28 @@
+<g id="props-papers">
+  <g transform="translate(410, 370) rotate(-3)">
+    <rect x="0" y="0" width="60" height="45" fill="#faf0e0" stroke="#5d3a26" stroke-width="1.5"/>
+    <line x1="6" y1="10" x2="54" y2="10" stroke="#8b6a4a" stroke-width="0.5"/>
+    <line x1="6" y1="18" x2="54" y2="18" stroke="#8b6a4a" stroke-width="0.5"/>
+    <line x1="6" y1="26" x2="40" y2="26" stroke="#8b6a4a" stroke-width="0.5"/>
+    <line x1="6" y1="34" x2="54" y2="34" stroke="#8b6a4a" stroke-width="0.5"/>
+  </g>
+  <g transform="translate(430, 365) rotate(5)">
+    <rect x="0" y="0" width="55" height="42" fill="#f5e6c8" stroke="#5d3a26" stroke-width="1.5"/>
+    <line x1="6" y1="10" x2="49" y2="10" stroke="#8b6a4a" stroke-width="0.5"/>
+    <line x1="6" y1="18" x2="49" y2="18" stroke="#8b6a4a" stroke-width="0.5"/>
+    <line x1="6" y1="26" x2="35" y2="26" stroke="#8b6a4a" stroke-width="0.5"/>
+  </g>
+  <g transform="translate(825, 372) rotate(4)">
+    <rect x="0" y="0" width="50" height="38" fill="#faf0e0" stroke="#5d3a26" stroke-width="1.5"/>
+    <line x1="5" y1="9" x2="45" y2="9" stroke="#8b6a4a" stroke-width="0.5"/>
+    <line x1="5" y1="16" x2="45" y2="16" stroke="#8b6a4a" stroke-width="0.5"/>
+    <line x1="5" y1="23" x2="30" y2="23" stroke="#8b6a4a" stroke-width="0.5"/>
+    <line x1="5" y1="30" x2="45" y2="30" stroke="#8b6a4a" stroke-width="0.5"/>
+  </g>
+  <g transform="translate(390, 380) rotate(-8)">
+    <rect x="0" y="0" width="20" height="8" fill="#fff5c0" stroke="#8b6a10" stroke-width="1"/>
+  </g>
+  <g transform="translate(870, 378) rotate(6)">
+    <rect x="0" y="0" width="20" height="8" fill="#fff5c0" stroke="#8b6a10" stroke-width="1"/>
+  </g>
+</g>

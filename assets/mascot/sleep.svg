@@ -1,0 +1,31 @@
+<g id="mascot-sleep">
+  <rect x="560" y="330" width="180" height="60" fill="#e8d4a0" stroke="#5d3a26" stroke-width="3"/>
+  <path d="M560 260 L740 260 L740 340 L560 340 Z" fill="#8b3a3a" stroke="#5d3a26" stroke-width="3"/>
+  <rect x="620" y="260" width="60" height="80" fill="#faf0e0"/>
+  <polygon points="630,268 670,268 665,282 635,282" fill="#ffcc33" stroke="#8b6a10" stroke-width="1"/>
+
+  <rect x="638" y="245" width="24" height="20" fill="#fce4c4"/>
+
+  <g transform="rotate(-14 650 260)">
+    <ellipse cx="650" cy="220" rx="55" ry="60" fill="#fce4c4"/>
+    <path d="M595 215 Q595 160 650 153 Q705 160 705 215 L710 325 Q700 345 695 305 L695 215 L605 215 L605 305 Q600 345 590 325 Z" fill="#6b3a20"/>
+    <path d="M600 195 Q610 225 640 223 L660 223 Q690 225 700 195 Q690 170 650 165 Q610 170 600 195 Z" fill="#6b3a20"/>
+
+    <path d="M618 225 Q628 220 638 225" stroke="#3a2a1a" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M662 225 Q672 220 682 225" stroke="#3a2a1a" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+    <ellipse cx="612" cy="245" rx="8" ry="4" fill="#ffb6a0" opacity="0.7"/>
+    <ellipse cx="688" cy="245" rx="8" ry="4" fill="#ffb6a0" opacity="0.7"/>
+
+    <ellipse cx="650" cy="255" rx="6" ry="3" fill="#c04a4a"/>
+  </g>
+
+  <rect x="540" y="290" width="30" height="90" rx="15" fill="#faf0e0" stroke="#5d3a26" stroke-width="2"/>
+  <rect x="730" y="290" width="30" height="90" rx="15" fill="#faf0e0" stroke="#5d3a26" stroke-width="2"/>
+  <circle cx="555" cy="382" r="12" fill="#fce4c4" stroke="#5d3a26" stroke-width="2"/>
+  <circle cx="745" cy="382" r="12" fill="#fce4c4" stroke="#5d3a26" stroke-width="2"/>
+
+  <text x="720" y="170" font-size="22" font-weight="bold" fill="#4a6a8a">Z</text>
+  <text x="740" y="140" font-size="28" font-weight="bold" fill="#4a6a8a">z</text>
+  <text x="765" y="105" font-size="34" font-weight="bold" fill="#4a6a8a">Z</text>
+</g>
