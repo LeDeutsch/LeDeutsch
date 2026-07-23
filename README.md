@@ -40,5 +40,5 @@
 ---
 
 <!-- SCENE-META:START -->
-<sub>🌙 Scène : **idle** · lumière : **day** · commits 24h : **0** · maj : 2026-07-23 15:32 UTC</sub>
+<sub>🌙 Scène : **idle** · lumière : **dusk** · commits 24h : **0** · maj : 2026-07-23 17:35 UTC</sub>
 <!-- SCENE-META:END -->
