@@ -100,6 +100,50 @@ Tous les SVG dans `assets/` sont **des placeholders volontairement moches** fait
 
 ---
 
-## 🗓️ Session 2 — [à venir]
+## 🗓️ Session 2 — 2026-07-23 (dialog tree + scène vivante)
 
-*Écrire ici les décisions et avancées de la prochaine session.*
+### 🎯 Décisions prises
+
+1. **Paradigme d'interaction choisi : Option A (navigation entre fichiers)** — après avoir exploré les 3 options possibles (A = nav vers file viewer, B = `<details>` in-place, C = issues+Action), Karl a choisi de garder A. Raison : *"le profil doit être clean en présentation, si quelqu'un veut jouer il navigue dans les files, tant pis pour la chrome moche"*. Décision pragmatique.
+2. **Focus sur la vivacité de la scène** au lieu de chercher plus d'interactivité — les animations SMIL sont l'axe prioritaire.
+
+### ✅ Ce qui a été ajouté
+
+- **Arbre de dialogue** (dossier `dialog/`) :
+  - `greet.md` → `greet_name.md`
+  - `rest.md` → `rest_bye.md` OU `wake.md`
+  - Le README profil a maintenant 3 boutons : 👋 Saluer / 📜 Quêtes / 💤 Repos
+- **Générateur refactoré** pour produire **7 scènes** au lieu d'1 : `scene.svg` (dynamique, avec bulle) + 6 variantes `scene_<pose>.svg` (sans bulle, pour les pages de dialogue) — tout ça avec la même lumière/props pour cohérence
+- **Animations SMIL** dans les SVG (visibles en permanence, aucun clic requis) :
+  - 🫁 Respiration de la mascotte (Y translate ±3px sur 4s, 6s pour sleep)
+  - 👁️ Clignements d'yeux (`ry` du ellipse animé) — sauf en pose sleep
+  - 🔥 Torches qui vacillent (fill color + opacity)
+  - ✨ Sparkles pulsent en pose wave / proud
+  - ☕ Vapeur de tasse en pose drink
+  - 💤 Zzz qui apparaissent l'un après l'autre en pose sleep
+
+### 🧠 Insights techniques
+
+- **Confirmé : SMIL fonctionne dans un README GitHub** quand le SVG est chargé via `<img>` relatif au repo. Zéro latence, zéro Action supplémentaire.
+- **Confirmé : impossible d'avoir "click sur mascotte → animation sur place"** — nécessite JS qui est strippé
+- **Impossible d'avoir "click → scène change → reste sur profil sans refresh"** — nécessite JS/CSS custom. Trois options réelles : nav vers autre page (A), `<details>` (B), ou issue-based Action (C, avec latence)
+- **Git rebase piège important** : pendant un rebase, `--ours`/`--theirs` sont INVERSÉS par rapport à un merge. Pour garder ses commits locaux pendant un `git rebase --continue`, utiliser `git checkout --theirs <file>`. Sinon on garde la version du remote (bot) et on écrase son propre travail — c'est arrivé une fois, on a dû refaire un commit correctif.
+
+### 🚧 Ce que Karl fait entre les sessions
+
+**Assets réels** : Karl reviendra quand il aura choisi et produit ses assets définitifs.
+
+Options rappelées (voir `docs/ASSETS.md` pour détails complets) :
+- Vroid Studio (gratuit, ~1 weekend)
+- Commission Skeb/Fiverr (50-200€, 3-14 jours)
+- Live2D
+- Stable Diffusion + LoRA
+- Packs itch.io
+
+### 📅 Agenda quand Karl revient
+
+1. **Intégrer les vrais assets** — remplacer les placeholders dans `assets/`
+2. **Nommer** la guilde et l'hôtesse
+3. **Enrichir l'arbre de dialogue** — plus de branches, plus de fins
+4. **Compléter au moins 1 quête de plus** (SAO-Utils ou Estiam-RFID)
+5. **(Optionnel) Brancher l'API Claude** pour dialogues auto-générés à partir des commits

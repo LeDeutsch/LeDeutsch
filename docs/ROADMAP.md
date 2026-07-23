@@ -4,17 +4,24 @@ Ce qu'il reste à faire, classé par phase.
 
 ---
 
-## ✅ MVP (livré)
+## ✅ MVP + Session 2 (livrés)
 
+**Session 1 (MVP) :**
 - [x] Structure de projet
 - [x] Générateur de scène Python (composition en couches)
 - [x] GitHub Action (cron 30min + on push)
 - [x] Assets **placeholders** (fond, 6 poses mascotte, NPCs, props)
-- [x] README profil avec scène cliquable
+- [x] README profil
 - [x] Hub de quêtes
 - [x] 1 quête complète (nethardware) avec 4 reveals
 - [x] 4 quêtes placeholder (sao-utils, estiam-rfid, unity-hierarchy, lulu)
 - [x] Documentation (setup, assets, architecture, roadmap)
+
+**Session 2 (dialog tree + scène vivante) :**
+- [x] Refactor : 3 boutons de dialogue sous la scène (au lieu de scène cliquable)
+- [x] Générateur produit 7 scènes (1 dynamique + 6 variantes par pose)
+- [x] Arbre de dialogue basique (`dialog/greet.md`, `dialog/rest.md`, etc.)
+- [x] Animations SMIL : respiration, clignements, torches vacillantes, sparkles, vapeur, Zzz
 
 ---
 
@@ -51,6 +58,7 @@ Chaque quête placeholder à transformer en mini-jeu réel.
 
 ## ✨ Phase 3 — Vitalité renforcée
 
+- [x] ~~Micro-animations SMIL (breathing, blink, torch flicker)~~ ← fait en session 2
 - [ ] **Répliques IA** : appel API Claude Haiku dans `pick_dialogue()`, la mascotte génère ses répliques en fonction du vrai commit message + son "personnage"
   - Ajouter `ANTHROPIC_API_KEY` dans les secrets du repo
   - Prompt système = fiche de perso de l'hôtesse (nom, personnalité, ton)
@@ -58,6 +66,7 @@ Chaque quête placeholder à transformer en mini-jeu réel.
 - [ ] **Overlay saisonnier** : chapeau de Père Noël en décembre, citrouille Halloween, cœurs le 14 février
 - [ ] **NPCs dynamiques** : plus il y a de commits récents = plus la guilde est peuplée
 - [ ] **Snake des contribs** intégré en bas de README (via `Platane/snk`)
+- [ ] **Enrichir l'arbre de dialogue** : plus de branches, achievements cachés
 
 ---
 
@@ -81,8 +90,12 @@ Chaque quête placeholder à transformer en mini-jeu réel.
 
 ## 📅 Priorité conseillée pour prochaine session
 
-1. **Choisir + produire les vrais assets mascotte + fond** (Phase 1) — c'est ce qui aura le plus d'impact visuel
-2. **Compléter 1 ou 2 quêtes** (Phase 2) — pour avoir 2-3 quêtes réelles au lieu d'1
-3. **Brancher l'API Claude pour les dialogues** (Phase 3) — mineur en effort, énorme en vivacité
+Karl reprendra quand il aura les vrais assets.
+
+1. **Intégrer les vrais assets mascotte + fond** (Phase 1) — remplacer les placeholders
+2. **Nommer** la guilde et l'hôtesse
+3. **Enrichir l'arbre de dialogue** avec les vrais visuels
+4. **Compléter 1 ou 2 quêtes** au format mini-jeu réel (SAO-Utils ou Estiam-RFID en priorité)
+5. **Brancher l'API Claude pour les dialogues auto** (Phase 3) — mineur en effort, énorme en vivacité
 
 Le reste vient au fil de l'eau.
