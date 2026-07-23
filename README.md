@@ -2,17 +2,23 @@
 
 # ⚔️ Guilde des Aventuriers de LeDeutsch ⚔️
 
-*Bienvenue, aventurier·ère. Approchez-vous du comptoir.*
+*L'hôtesse te regarde approcher.*
 
-[![Guild Hall](output/scene.svg)](quests/README.md)
+![Guild Hall](output/scene.svg)
 
-**↑ Cliquez sur la scène pour parler à l'hôtesse et consulter les quêtes.**
+---
+
+### 💬 Que veux-tu faire, aventurier·ère ?
+
+|  |  |  |
+|:---:|:---:|:---:|
+| [👋 **La saluer**](dialog/greet.md) | [📜 **Consulter les quêtes**](quests/README.md) | [💤 **La laisser tranquille**](dialog/rest.md) |
 
 </div>
 
 ---
 
-## 📜 Tableau des Quêtes
+## 📜 Tableau des Quêtes (accès direct)
 
 | Quête | Rang | Type |
 |---|---|---|
