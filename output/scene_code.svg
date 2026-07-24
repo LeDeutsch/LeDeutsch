@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" font-family="'Segoe UI', Verdana, sans-serif">
-  <title>Guilde des Aventuriers de LeDeutsch — dusk — code</title>
+  <title>Guilde des Aventuriers de LeDeutsch — evening — code</title>
   <g id="background">
   <rect x="0" y="0" width="1200" height="400" fill="#d4b085"/>
   <rect x="0" y="380" width="1200" height="10" fill="#8b5a3c"/>
@@ -105,7 +105,7 @@
 </g>
 
   
-  <rect x="0" y="0" width="1200" height="600" fill="#ff9966" opacity="0.28"/>
+  <rect x="0" y="0" width="1200" height="600" fill="#5a4a8a" opacity="0.35"/>
   <g id="mascot-code">
   <animateTransform attributeName="transform" type="translate" values="0,0;0,-3;0,0" dur="4s" repeatCount="indefinite"/>
   <rect x="560" y="330" width="180" height="60" fill="#e8d4a0" stroke="#5d3a26" stroke-width="3"/>
