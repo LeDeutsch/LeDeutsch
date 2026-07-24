@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" font-family="'Segoe UI', Verdana, sans-serif">
-  <title>Guilde des Aventuriers de LeDeutsch — night — sleep</title>
+  <title>Guilde des Aventuriers de LeDeutsch — dawn — idle</title>
   <g id="background">
   <rect x="0" y="0" width="1200" height="400" fill="#d4b085"/>
   <rect x="0" y="380" width="1200" height="10" fill="#8b5a3c"/>
@@ -105,50 +105,50 @@
 </g>
 
   
-  <rect x="0" y="0" width="1200" height="600" fill="#1a1a4a" opacity="0.55"/>
-  <g id="mascot-sleep">
-  <animateTransform attributeName="transform" type="translate" values="0,0;0,-2;0,0" dur="6s" repeatCount="indefinite"/>
+  <rect x="0" y="0" width="1200" height="600" fill="#ffcc80" opacity="0.22"/>
+  <g id="mascot-idle">
+  <animateTransform attributeName="transform" type="translate" values="0,0;0,-3;0,0" dur="4s" repeatCount="indefinite"/>
   <rect x="560" y="330" width="180" height="60" fill="#e8d4a0" stroke="#5d3a26" stroke-width="3"/>
   <path d="M560 260 L740 260 L740 340 L560 340 Z" fill="#8b3a3a" stroke="#5d3a26" stroke-width="3"/>
   <rect x="620" y="260" width="60" height="80" fill="#faf0e0"/>
   <polygon points="630,268 670,268 665,282 635,282" fill="#ffcc33" stroke="#8b6a10" stroke-width="1"/>
+  <polygon points="640,275 660,275 655,290 645,290" fill="#e0a010"/>
 
   <rect x="638" y="245" width="24" height="20" fill="#fce4c4"/>
 
-  <g transform="rotate(-14 650 260)">
-    <ellipse cx="650" cy="220" rx="55" ry="60" fill="#fce4c4"/>
-    <path d="M595 215 Q595 160 650 153 Q705 160 705 215 L710 325 Q700 345 695 305 L695 215 L605 215 L605 305 Q600 345 590 325 Z" fill="#6b3a20"/>
-    <path d="M600 195 Q610 225 640 223 L660 223 Q690 225 700 195 Q690 170 650 165 Q610 170 600 195 Z" fill="#6b3a20"/>
+  <ellipse cx="650" cy="215" rx="55" ry="60" fill="#fce4c4"/>
 
-    <path d="M618 225 Q628 220 638 225" stroke="#3a2a1a" stroke-width="3" fill="none" stroke-linecap="round"/>
-    <path d="M662 225 Q672 220 682 225" stroke="#3a2a1a" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M595 210 Q595 155 650 148 Q705 155 705 210 L710 320 Q700 340 695 300 L695 210 L605 210 L605 300 Q600 340 590 320 Z" fill="#6b3a20"/>
+  <path d="M600 190 Q610 220 640 218 L660 218 Q690 220 700 190 Q690 165 650 160 Q610 165 600 190 Z" fill="#6b3a20"/>
+  <path d="M700 210 Q715 260 705 300 Q700 275 695 240 Z" fill="#6b3a20"/>
+  <path d="M600 210 Q585 260 595 300 Q600 275 605 240 Z" fill="#6b3a20"/>
 
-    <ellipse cx="612" cy="245" rx="8" ry="4" fill="#ffb6a0" opacity="0.7"/>
-    <ellipse cx="688" cy="245" rx="8" ry="4" fill="#ffb6a0" opacity="0.7"/>
+  <ellipse cx="628" cy="222" rx="7" ry="10" fill="#3a2a1a">
+    <animate attributeName="ry" values="10;10;10;10;10;10;10;10;10;1;10" dur="5s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="672" cy="222" rx="7" ry="10" fill="#3a2a1a">
+    <animate attributeName="ry" values="10;10;10;10;10;10;10;10;10;1;10" dur="5s" repeatCount="indefinite"/>
+  </ellipse>
+  <circle cx="630" cy="219" r="2.5" fill="white"/>
+  <circle cx="674" cy="219" r="2.5" fill="white"/>
+  <path d="M620 208 Q628 205 636 208" stroke="#5d3a26" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M664 208 Q672 205 680 208" stroke="#5d3a26" stroke-width="2" fill="none" stroke-linecap="round"/>
 
-    <ellipse cx="650" cy="255" rx="6" ry="3" fill="#c04a4a"/>
-  </g>
+  <ellipse cx="612" cy="240" rx="7" ry="3" fill="#ffb6a0" opacity="0.7"/>
+  <ellipse cx="688" cy="240" rx="7" ry="3" fill="#ffb6a0" opacity="0.7"/>
+
+  <path d="M640 248 Q650 254 660 248" stroke="#5d3a26" stroke-width="2" fill="none" stroke-linecap="round"/>
 
   <rect x="540" y="290" width="30" height="90" rx="15" fill="#faf0e0" stroke="#5d3a26" stroke-width="2"/>
   <rect x="730" y="290" width="30" height="90" rx="15" fill="#faf0e0" stroke="#5d3a26" stroke-width="2"/>
   <circle cx="555" cy="382" r="12" fill="#fce4c4" stroke="#5d3a26" stroke-width="2"/>
   <circle cx="745" cy="382" r="12" fill="#fce4c4" stroke="#5d3a26" stroke-width="2"/>
-
-  <text x="720" y="170" font-size="22" font-weight="bold" fill="#4a6a8a">Z
-    <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite"/>
-  </text>
-  <text x="740" y="140" font-size="28" font-weight="bold" fill="#4a6a8a">z
-    <animate attributeName="opacity" values="0;1;0" dur="3s" begin="1s" repeatCount="indefinite"/>
-  </text>
-  <text x="765" y="105" font-size="34" font-weight="bold" fill="#4a6a8a">Z
-    <animate attributeName="opacity" values="0;1;0" dur="3s" begin="2s" repeatCount="indefinite"/>
-  </text>
 </g>
 
   <g id="dialogue" transform="translate(680, 210)">
   <rect x="0" y="0" width="380" height="70" rx="14" fill="#fffaf0" stroke="#5d3a26" stroke-width="3"/>
   <polygon points="30,70 45,70 20,95" fill="#fffaf0" stroke="#5d3a26" stroke-width="3"/>
   <polygon points="32,71 43,71 22,93" fill="#fffaf0"/>
-  <text x="20" y="40" font-size="16" fill="#3a2820" font-family="Georgia, serif">Zzz... reviens à l'aube, brave âme.</text>
+  <text x="20" y="40" font-size="16" fill="#3a2820" font-family="Georgia, serif">Bienvenue, aventurier·ère. Quelle quête cherches-tu ?</text>
 </g>
 </svg>
