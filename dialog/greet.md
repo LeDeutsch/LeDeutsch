@@ -9,10 +9,10 @@
 
 ---
 
-### 💬 Que réponds-tu ?
+### Que réponds-tu ?
 
 |  |  |
 |:---:|:---:|
-| [🗣️ **Qui es-tu ?**](greet_name.md) | [👋 **Retour au comptoir**](../README.md) |
+| [**Qui es-tu ?**](greet_name.md) | [**Retour au comptoir**](../README.md) |
 
 </div>

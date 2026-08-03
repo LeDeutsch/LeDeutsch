@@ -1,17 +1,17 @@
-# 📚 Quête : Ordonner le Grimoire Unity
+# Quête : Ordonner le Grimoire Unity
 
-**Rang :** ⭐⭐ B · **Type :** Artisanat · **Récompense :** Titre *« Bibliothécaire du Chaos »*
+**Rang :**B · **Type :**Artisanat · **Récompense :** Titre *« Bibliothécaire du Chaos »*
 
 ---
 
-## 📖 Contexte
+## Contexte
 
 > *« Un grimoire Unity dont les pages ont été mélangées. Le chaos règne dans sa hiérarchie.
 > Ludwig a forgé un outil pour tout ranger. Tu vas voir. »*
 
 ---
 
-## 🚧 Quête en construction
+## Quête en construction
 
 Mini-jeu prévu : **split-screen avant/après**. Le "avant" = capture d'écran d'une hiérarchie Unity monstrueuse. Bouton "Activer le plugin" → le "après", tout est rangé, couleurs, groupes, icônes.
 

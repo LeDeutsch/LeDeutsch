@@ -11,10 +11,10 @@
 
 ---
 
-### 💬 Que fais-tu ?
+### Que fais-tu ?
 
 |  |  |
 |:---:|:---:|
-| [🐾 **Partir sur la pointe des pieds**](rest_bye.md) | [🔔 **La réveiller**](wake.md) |
+| [**Partir sur la pointe des pieds**](rest_bye.md) | [**La réveiller**](wake.md) |
 
 </div>

@@ -1,10 +1,10 @@
 # 🈁 Quête : Traduire les Runes d'Aincrad
 
-**Rang :** ⭐⭐⭐ A · **Type :** Linguistique · **Récompense :** Titre *« Interprète des Anciens »*
+**Rang :**A · **Type :**Linguistique · **Récompense :** Titre *« Interprète des Anciens »*
 
 ---
 
-## 📖 Contexte
+## Contexte
 
 > *« Un grimoire venu du royaume d'Aincrad. Nos meilleurs lettrés n'y comprennent rien.
 > Ludwig, lui, a passé des semaines à en traduire chaque ligne.
@@ -12,7 +12,7 @@
 
 ---
 
-## 🚧 Quête en construction
+## Quête en construction
 
 Cette quête sera un **mini-jeu de traduction** :
 - On affiche une ligne originale (JA/EN) du patch SAO Utils

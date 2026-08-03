@@ -221,7 +221,7 @@ def update_readme_footer(pose: str, lighting_label: str, commits_24h: int) -> No
     content = README.read_text(encoding="utf-8")
     new_block = (
         f"{marker_start}\n"
-        f"<sub>🌙 Scène : **{pose}** · lumière : **{lighting_label}** · "
+        f"<sub>Scène : **{pose}** · lumière : **{lighting_label}** · "
         f"commits 24h : **{commits_24h}** · maj : {now}</sub>\n"
         f"{marker_end}"
     )

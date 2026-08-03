@@ -11,10 +11,10 @@
 
 ---
 
-### 💬 Que réponds-tu ?
+### Que réponds-tu ?
 
 |  |  |
 |:---:|:---:|
-| [📜 **Voir les quêtes disponibles**](../quests/README.md) | [🙇 **Désolé, retour au comptoir**](../README.md) |
+| [**Voir les quêtes disponibles**](../quests/README.md) | [**Désolé, retour au comptoir**](../README.md) |
 
 </div>

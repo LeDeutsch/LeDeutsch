@@ -1,4 +1,4 @@
-# 🏰 LeDeutsch's Guild Hall — Vision & MVP
+# LeDeutsch's Guild Hall — Vision & MVP
 
 *Document de référence — à relire quand tu voudras te lancer.*
 
@@ -6,7 +6,7 @@
 
 ## 1. Le concept en une phrase
 
-Le profil GitHub de Ludwig (LeDeutsch) est mis en scène comme une **guilde d'aventuriers JRPG**. Ce document couvre l'extension du projet : transformer le README vivant en point d'entrée vers un **portfolio narratif** et une **application web gamifiée** où les visiteurs deviennent des aventuriers, apprennent à coder, et peuvent aider sur de vrais projets — le tout gratuitement.
+Le profil GitHub de Ludwig (LeDeutsch) est mis en scène comme une **guilde d'aventuriers JRPG**. Ce document couvre l'extension du projet : transformer le README vivant en point d'entrée vers un **portfolio narratif**et une **application web gamifiée** où les visiteurs deviennent des aventuriers, apprennent à coder, et peuvent aider sur de vrais projets — le tout gratuitement.
 
 ---
 
@@ -27,10 +27,10 @@ C'est la fondation. Tout ce qui suit s'y branche.
 
 ## 3. L'extension : le Maître de Guilde
 
-**L'idée centrale** : Ludwig apparaît dans le README comme le **Maître de Guilde** (par événement, pas en permanence). Un bouton "Contacter le Maître de Guilde" ouvre un **portfolio** qui fonctionne en deux modes :
+**L'idée centrale**: Ludwig apparaît dans le README comme le **Maître de Guilde**(par événement, pas en permanence). Un bouton "Contacter le Maître de Guilde" ouvre un **portfolio** qui fonctionne en deux modes :
 
 - **Mode visiteur** (sans compte) : vitrine JRPG des faits d'armes du Maître de Guilde — *"Dinspel Ludwig, Rang A"* — avec une propagande sympathique : *"Vous aussi, devenez un aventurier !"*
-- **Mode connecté** (via GitHub OAuth) : le visiteur crée un compte, obtient une **fiche de personnage** générée à partir de ses vraies stats GitHub, et accède à un **tableau de quêtes**.
+- **Mode connecté**(via GitHub OAuth) : le visiteur crée un compte, obtient une **fiche de personnage**générée à partir de ses vraies stats GitHub, et accède à un **tableau de quêtes**.
 
 ### Les 3 objectifs du projet
 
@@ -52,14 +52,14 @@ GitHub Pages ne sert que du statique : pas de code serveur, pas de secrets, pas 
 |---|---|---|---|
 | README profil | GitHub (existant) | Scène vivante + event Maître de Guilde + lien vers le portfolio | Gratuit |
 | Portfolio visiteur | **GitHub Pages** | Site statique, vitrine JRPG des exploits, CTA "devenir aventurier". Régénéré par une Action (même pattern que le générateur de scène actuel) | Gratuit |
-| App aventurier | **Vercel** + **Supabase** | Auth GitHub OAuth, fiche de perso, tableau de quêtes, XP/rangs/badges | Gratuit (plan Hobby / free tier, très large marge) |
+| App aventurier | **Vercel**+ **Supabase** | Auth GitHub OAuth, fiche de perso, tableau de quêtes, XP/rangs/badges | Gratuit (plan Hobby / free tier, très large marge) |
 | Nom de domaine perso | Optionnel | `tonnom.dev` au lieu de `tonnom.vercel.app` | ~10-15 €/an *(seul coût possible, non nécessaire)* |
 
 Le lien entre le portfolio (GitHub Pages) et l'app (Vercel) est un simple bouton "Devenir aventurier" — pas de session partagée nécessaire, juste une redirection.
 
 ### Ce qui reste réellement limité
 
-Seule la validation **automatique** d'une quête au merge d'une PR nécessite un webhook (réception de requête serveur) — impossible sur GitHub Pages. Solution légère : une Supabase Edge Function (gratuite) dédiée à ça. Pour le MVP, une validation **manuelle** suffit largement.
+Seule la validation **automatique**d'une quête au merge d'une PR nécessite un webhook (réception de requête serveur) — impossible sur GitHub Pages. Solution légère : une Supabase Edge Function (gratuite) dédiée à ça. Pour le MVP, une validation **manuelle** suffit largement.
 
 ---
 

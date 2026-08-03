@@ -1,4 +1,4 @@
-# 🛠️ SETUP — Installation & Publication
+# SETUP — Installation & Publication
 
 Guide pas-à-pas pour passer de ce dossier local au profil GitHub vivant.
 
@@ -10,12 +10,12 @@ GitHub reconnaît un repo **spécial** dont le nom est identique à ton pseudo. 
 
 1. Va sur https://github.com/new
 2. **Repository name** : `LeDeutsch` (exactement identique à ton pseudo, casse comprise)
-3. **Public** ✅
-4. **Add a README file** : ❌ (on a déjà le nôtre)
-5. **Add .gitignore** : ❌ (on a déjà le nôtre)
+3. **Public** 
+4. **Add a README file** :  (on a déjà le nôtre)
+5. **Add .gitignore** :  (on a déjà le nôtre)
 6. Clique **Create repository**
 
-GitHub te dira *"LeDeutsch/LeDeutsch is a ✨ special ✨ repository"* — c'est bon signe.
+GitHub te dira *"LeDeutsch/LeDeutsch is a  special  repository"* — c'est bon signe.
 
 ---
 
@@ -41,7 +41,7 @@ Va sur `https://github.com/LeDeutsch` — tu devrais voir la scène apparaître 
 L'Action a besoin de pousser les mises à jour de la scène. Par défaut GitHub bloque.
 
 1. Va sur https://github.com/LeDeutsch/LeDeutsch/settings/actions
-2. Section **Workflow permissions** → coche **Read and write permissions**
+2. Section **Workflow permissions**→ coche **Read and write permissions**
 3. **Save**
 
 ---
@@ -78,10 +78,10 @@ Voir [ASSETS.md](ASSETS.md) pour remplacer les placeholders SVG par de vrais ass
 
 ---
 
-## ⚠️ Troubleshooting
+## Troubleshooting
 
 **L'Action échoue avec "Permission denied"** → étape 3 pas faite.
 
 **La scène ne se met pas à jour** → vérifie que le workflow a bien tourné (onglet Actions). Cache GitHub peut mettre 1-2 min à s'invalider.
 
-**L'image ne s'affiche pas sur le profil** → le repo doit être **public** ET porter EXACTEMENT ton pseudo (respect de la casse : `LeDeutsch` ≠ `ledeutsch`).
+**L'image ne s'affiche pas sur le profil**→ le repo doit être **public** ET porter EXACTEMENT ton pseudo (respect de la casse : `LeDeutsch` ≠ `ledeutsch`).

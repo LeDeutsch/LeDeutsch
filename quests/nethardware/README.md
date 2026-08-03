@@ -1,10 +1,10 @@
-# 🩺 Quête : Ausculter la Bête de Métal
+# Quête : Ausculter la Bête de Métal
 
-**Rang :** ⭐⭐⭐⭐ S · **Type :** Diagnostic · **Récompense :** Titre *« Ingénieur des Constantes »*
+**Rang :**S · **Type :**Diagnostic · **Récompense :** Titre *« Ingénieur des Constantes »*
 
 ---
 
-## 📖 Contexte
+## Contexte
 
 Un aventurier arrive à la Guilde, essoufflé.
 
@@ -14,21 +14,21 @@ Un aventurier arrive à la Guilde, essoufflé.
 
 L'hôtesse te tend les constantes vitales de la créature.
 
-**🎯 Identifie le problème principal.**
+**Identifie le problème principal.**
 
 ---
 
-## 📊 Constantes vitales
+## Constantes vitales
 
 ```
 ┌──────────────────────────────────────────────┐
-│  🌡️  CPU Temp     :  92°C     🔴 CRITIQUE    │
-│  💾  RAM Usage    :  45 %     🟢 OK           │
-│  💽  Disk I/O     :  12 %     🟢 OK           │
-│  🌪️  Fan RPM      :  3200     🟡 ÉLEVÉ        │
-│  ⚡  CPU Load     :  88 %     🟡 SOUTENU      │
-│  🎮  GPU Temp     :  74°C     🟢 OK           │
-│  🔌  Power Draw   :  180 W    🟡 ÉLEVÉ        │
+│    CPU Temp     :  92°C      CRITIQUE    │
+│    RAM Usage    :  45 %      OK           │
+│    Disk I/O     :  12 %      OK           │
+│    Fan RPM      :  3200      ÉLEVÉ        │
+│    CPU Load     :  88 %      SOUTENU      │
+│    GPU Temp     :  74°C      OK           │
+│    Power Draw   :  180 W     ÉLEVÉ        │
 └──────────────────────────────────────────────┘
 ```
 
@@ -37,12 +37,12 @@ Mais **quelle est la cause première** ?
 
 ---
 
-## 🎯 Ton diagnostic ?
+## Ton diagnostic ?
 
-- [🌡️ **A.** Le CPU surchauffe — pâte thermique dégradée](reveal_a.md)
-- [💾 **B.** Fuite mémoire dans un processus](reveal_b.md)
-- [💽 **C.** Le disque est mourant, il fait chauffer tout le reste](reveal_c.md)
-- [🌀 **D.** Le ventilateur est bloqué, il n'évacue plus la chaleur](reveal_d.md)
+- [**A.** Le CPU surchauffe — pâte thermique dégradée](reveal_a.md)
+- [**B.** Fuite mémoire dans un processus](reveal_b.md)
+- [**C.** Le disque est mourant, il fait chauffer tout le reste](reveal_c.md)
+- [**D.** Le ventilateur est bloqué, il n'évacue plus la chaleur](reveal_d.md)
 
 ---
 

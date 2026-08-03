@@ -1,6 +1,6 @@
-# 💽 Diagnostic : *Disque mourant*
+# Diagnostic : *Disque mourant*
 
-## ❌ Pas tout à fait, aventurier.
+## Pas tout à fait, aventurier.
 
 *L'hôtesse secoue doucement la tête.*
 
@@ -10,8 +10,8 @@
 
 ---
 
-## 🔍 Le bon indice à suivre
+## Le bon indice à suivre
 
 Concentre-toi sur la **température CPU + ventilateur** — le disque et le GPU sont sains.
 
-- [🔙 Retour à la quête](README.md)
+- [Retour à la quête](README.md)

@@ -1,4 +1,4 @@
-# 🏛️ ARCHITECTURE
+# ARCHITECTURE
 
 Comment tout ça marche techniquement.
 
@@ -139,17 +139,17 @@ Steps:
 - Dans chaque quête : les 4 choix → READMEs de "reveal"
 
 ### Ce qui NE peut PAS être fait dans un README GitHub
-- ❌ JavaScript (script sanitizé)
-- ❌ CSS custom (style sanitizé)
-- ❌ Clics sur zones précises **d'une image SVG** (les `<a>` internes ne fonctionnent pas quand le SVG est chargé via `<img>` — et markdown `![](...)` le charge toujours via `<img>`)
-- ❌ Hover / suivi de curseur
-- ❌ Animations qui réagissent aux visiteurs
+- JavaScript (script sanitizé)
+- CSS custom (style sanitizé)
+- Clics sur zones précises **d'une image SVG** (les `<a>` internes ne fonctionnent pas quand le SVG est chargé via `<img>` — et markdown `![](...)` le charge toujours via `<img>`)
+- Hover / suivi de curseur
+- Animations qui réagissent aux visiteurs
 
 ### Ce qui EST possible
-- ✅ Régénération périodique de l'image (via Action)
-- ✅ Image entière cliquable (via `[![](img)](link)`)
-- ✅ Navigation via chaînes de README markdown
-- ✅ Animations SMIL **bouclées** dans le SVG (breathing, blink) — mais on ne les utilise pas dans le MVP par simplicité de rendu et compatibilité camo
+- Régénération périodique de l'image (via Action)
+- Image entière cliquable (via `[![](img)](link)`)
+- Navigation via chaînes de README markdown
+- Animations SMIL **bouclées** dans le SVG (breathing, blink) — mais on ne les utilise pas dans le MVP par simplicité de rendu et compatibilité camo
 
 ---
 

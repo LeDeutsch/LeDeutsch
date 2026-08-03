@@ -1,6 +1,6 @@
-# 💾 Diagnostic : *Fuite mémoire*
+# Diagnostic : *Fuite mémoire*
 
-## ❌ Pas cette fois, aventurier.
+## Pas cette fois, aventurier.
 
 *L'hôtesse te regarde gentiment.*
 
@@ -10,8 +10,8 @@
 
 ---
 
-## 🔍 Le bon indice à suivre
+## Le bon indice à suivre
 
 Le vrai coupable se cache dans la corrélation **température ↑ + ventilateur ↑ + charge modérée**.
 
-- [🔙 Retour à la quête](README.md)
+- [Retour à la quête](README.md)

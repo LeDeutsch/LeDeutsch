@@ -12,10 +12,10 @@
 
 ---
 
-### 💬 Suite du dialogue
+### Suite du dialogue
 
 |  |  |
 |:---:|:---:|
-| [😊 **Enchanté(e) quand même**](greet.md) | [👋 **Retour au comptoir**](../README.md) |
+| [**Enchanté(e) quand même**](greet.md) | [**Retour au comptoir**](../README.md) |
 
 </div>

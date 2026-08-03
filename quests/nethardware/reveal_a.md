@@ -1,6 +1,6 @@
-# 🌡️ Diagnostic : *Pâte thermique dégradée*
+# Diagnostic : *Pâte thermique dégradée*
 
-## ✅ **BONNE RÉPONSE — La Guilde applaudit.**
+## **BONNE RÉPONSE — La Guilde applaudit.**
 
 *L'hôtesse hoche la tête, un sourire au coin des lèvres.*
 
@@ -11,7 +11,7 @@
 
 ---
 
-## 🧭 Comment on l'a détecté
+## Comment on l'a détecté
 
 Les indices étaient tous là :
 
@@ -26,22 +26,22 @@ Bref : **transfert thermique cassé côté CPU**, cause classique = pâte thermi
 
 ---
 
-## 🎁 Ce que fait le vrai projet
+## Ce que fait le vrai projet
 
 Cette quête est un cas type que mon projet **[nethardware-monitor](https://github.com/LeDeutsch/nethardware-monitor)** aurait détecté en temps réel :
 
-- 📈 Surveillance continue de **CPU/GPU/RAM/Disk/Fan** avec seuils configurables
-- 🚨 **Alerte automatique** quand la corrélation *"temp haute + fan haut + load modéré"* se déclenche
-- 📊 Historique pour repérer la **dérive lente** (la pâte thermique ne meurt pas d'un coup — elle se dégrade sur des mois)
-- 🌐 Web dashboard temps réel accessible depuis n'importe quel appareil du réseau
+- Surveillance continue de **CPU/GPU/RAM/Disk/Fan** avec seuils configurables
+- **Alerte automatique** quand la corrélation *"temp haute + fan haut + load modéré"* se déclenche
+- Historique pour repérer la **dérive lente** (la pâte thermique ne meurt pas d'un coup — elle se dégrade sur des mois)
+- Web dashboard temps réel accessible depuis n'importe quel appareil du réseau
 
 L'idée : **détecter le problème avant que la bête ne s'écroule.**
 
 ---
 
-## 🏅 Tampon obtenu !
+## Tampon obtenu !
 
 Ajoute *« Ingénieur des Constantes »* à ta carte d'aventurier.
 
 - [→ Retour au tableau des quêtes](../README.md)
-- [🏛️ Retour à la Guilde](../../README.md)
+- [Retour à la Guilde](../../README.md)

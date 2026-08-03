@@ -9,14 +9,14 @@
 >
 > *Dans la salle, l'hôtesse respire calmement.*
 
-**🎖️ Titre honorifique obtenu : *« Aventurier·ère Attentionné·e »***
+** Titre honorifique obtenu : *« Aventurier·ère Attentionné·e »***
 
 ---
 
-### 💬 Que fais-tu ensuite ?
+### Que fais-tu ensuite ?
 
 |  |  |
 |:---:|:---:|
-| [🚪 **Revenir plus tard**](../README.md) | [📜 **Voir les quêtes disponibles**](../quests/README.md) |
+| [**Revenir plus tard**](../README.md) | [**Voir les quêtes disponibles**](../quests/README.md) |
 
 </div>

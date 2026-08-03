@@ -1,10 +1,10 @@
-# 🎨 ASSETS — Remplacer les placeholders
+# ASSETS — Remplacer les placeholders
 
 Les SVG actuels dans `assets/` sont des **placeholders** — moches mais fonctionnels. Ce document liste toutes les options pour obtenir de vrais assets, avec coût, effort, et cohérence.
 
 ---
 
-## 🎯 Ce qu'il faut produire
+## Ce qu'il faut produire
 
 | Asset | Format | Dimensions cibles (dans le viewBox 1200×600) |
 |---|---|---|
@@ -17,7 +17,7 @@ Les 6 poses de mascotte à produire : `idle`, `wave`, `sleep`, `code`, `drink`, 
 
 ---
 
-## 🏆 Option A — Vroid Studio (GRATUIT, ma reco pour MVP)
+## Option A — Vroid Studio (GRATUIT, ma reco pour MVP)
 
 **Qu'est-ce que c'est :** logiciel japonais gratuit (Pixiv) qui permet de créer un personnage anime 3D personnalisable et de le rendre en 2D.
 
@@ -31,13 +31,13 @@ Les 6 poses de mascotte à produire : `idle`, `wave`, `sleep`, `code`, `drink`, 
 5. Convertis chaque PNG en SVG (via https://convertio.co/png-svg/ ou Inkscape)
 6. Remplace les fichiers dans `assets/mascot/`
 
-**✅ Avantages**
+**Avantages**
 - Cohérence 100% garantie entre poses (même perso, même vêtements)
 - Style anime cel-shaded très populaire (Genshin, BanG Dream)
 - Extensible à volonté (nouvelle pose = 5 min)
 - Utilisable commercialement
 
-**❌ Inconvénients**
+**Inconvénients**
 - ~2-3h d'apprentissage initial
 - Rendu 3D → PNG → SVG perd un peu de fluidité
 - Personnage a un "look Vroid" reconnaissable
@@ -46,7 +46,7 @@ Les 6 poses de mascotte à produire : `idle`, `wave`, `sleep`, `code`, `drink`, 
 
 ---
 
-## 🎨 Option B — Live2D (payant mais réutilisable)
+## Option B — Live2D (payant mais réutilisable)
 
 **Qu'est-ce que c'est :** logiciel qui anime UN dessin en découpant les parties (yeux, bouche, cheveux, bras). Une seule illustration → infinité de micro-anims.
 
@@ -58,12 +58,12 @@ Les 6 poses de mascotte à produire : `idle`, `wave`, `sleep`, `code`, `drink`, 
 3. Rigger dans Live2D Cubism (Free edition suffit)
 4. Exporter des poses statiques en PNG puis SVG
 
-**✅ Avantages**
+**Avantages**
 - Plus vivant qu'un sprite (micro-anims impossibles sinon)
 - Style illustration 2D, moins "3D generic" que Vroid
 - Une seule asset source → toutes les poses en dérivent
 
-**❌ Inconvénients**
+**Inconvénients**
 - Nécessite l'illustration initiale (coût ou temps)
 - Courbe d'apprentissage Live2D plus rude que Vroid
 - Cubism Pro : 105 USD/an (Free suffit pour l'usage README)
@@ -72,11 +72,11 @@ Les 6 poses de mascotte à produire : `idle`, `wave`, `sleep`, `code`, `drink`, 
 
 ---
 
-## 🤖 Option C — IA générative (Stable Diffusion, Midjourney, NovelAI)
+## Option C — IA générative (Stable Diffusion, Midjourney, NovelAI)
 
 **Qu'est-ce que c'est :** génération d'images à partir de prompts textuels.
 
-**Le vrai problème :** la **cohérence** entre plusieurs poses est très difficile.
+**Le vrai problème :**la **cohérence** entre plusieurs poses est très difficile.
 
 ### C.1 — Midjourney / NovelAI (facile mais cohérence limitée)
 
@@ -89,12 +89,12 @@ Les 6 poses de mascotte à produire : `idle`, `wave`, `sleep`, `code`, `drink`, 
    > *"anime girl guild receptionist, brown long hair, red vest, white blouse, gold ribbon, front view, waist up, [POSE], white background"*
 3. Retouche dans un éditeur pour les incohérences (couleur cheveux qui varie, etc.)
 
-**✅ Avantages**
+**Avantages**
 - Rapide (30 min pour tout)
 - Style anime très propre
 - Fond one-shot excellent
 
-**❌ Inconvénients**
+**Inconvénients**
 - Cohérence character-sheet imparfaite (les vêtements changent subtilement)
 - Coût abo : ~10-30€/mois
 - Licence : vérifier les CGU pour usage commercial
@@ -110,12 +110,12 @@ Les 6 poses de mascotte à produire : `idle`, `wave`, `sleep`, `code`, `drink`, 
 2. Entraîne une **LoRA** dessus (~30 min sur GPU)
 3. Utilise cette LoRA pour générer les 6 poses → cohérence quasi-parfaite
 
-**✅ Avantages**
+**Avantages**
 - Gratuit après le setup
 - Cohérence excellente
 - Contrôle total
 
-**❌ Inconvénients**
+**Inconvénients**
 - Setup technique (nécessite GPU 8GB+ ou Colab)
 - ~1 après-midi d'apprentissage
 
@@ -123,7 +123,7 @@ Les 6 poses de mascotte à produire : `idle`, `wave`, `sleep`, `code`, `drink`, 
 
 ---
 
-## 💰 Option D — Commission d'artiste (le meilleur rendu)
+## Option D — Commission d'artiste (le meilleur rendu)
 
 **Où trouver :**
 - **Skeb** (https://skeb.jp) — Japonais, spécialisé illustration anime, ~50-200€ par pack. Excellent style.
@@ -137,13 +137,13 @@ Les 6 poses de mascotte à produire : `idle`, `wave`, `sleep`, `code`, `drink`, 
 3. Commande un **character sheet** avec les 6 poses front-view waist-up
 4. Livraison PNG haute résolution → convertis en SVG (Inkscape trace bitmap ou convertio.co)
 
-**✅ Avantages**
+**Avantages**
 - Qualité artistique maximale
 - Style 100% original, unique à ton profil
 - Utilisation commerciale négociée dans le contrat
 - Tu peux commander de nouvelles poses plus tard chez la·le même artiste (cohérence garantie)
 
-**❌ Inconvénients**
+**Inconvénients**
 - Coût : 50-400€
 - Délai : 3-14 jours
 - Chercher un·e artiste dont le style te plaît prend du temps
@@ -152,7 +152,7 @@ Les 6 poses de mascotte à produire : `idle`, `wave`, `sleep`, `code`, `drink`, 
 
 ---
 
-## 🖼️ Option E — Packs d'assets existants (rapide, générique)
+## Option E — Packs d'assets existants (rapide, générique)
 
 **Sites :**
 - **itch.io** (https://itch.io/game-assets/tag-character-sprites) — énorme catalogue, gratuit à 20€
@@ -166,12 +166,12 @@ Les 6 poses de mascotte à produire : `idle`, `wave`, `sleep`, `code`, `drink`, 
 3. Récupère les 6 poses depuis le pack
 4. Adapte si besoin (colorimétrie, taille)
 
-**✅ Avantages**
+**Avantages**
 - Instantané
 - Cohérence parfaite (même pack)
 - Gratuit à peu cher
 
-**❌ Inconvénients**
+**Inconvénients**
 - Style pas 100% "toi"
 - D'autres profils peuvent utiliser le même pack
 
@@ -179,9 +179,9 @@ Les 6 poses de mascotte à produire : `idle`, `wave`, `sleep`, `code`, `drink`, 
 
 ---
 
-## 🎨 Option F — Fond de scène : ma reco spécifique
+## Option F — Fond de scène : ma reco spécifique
 
-Le **fond** est un cas facile : il est **fixe**, pas besoin de cohérence entre plusieurs versions.
+Le **fond**est un cas facile : il est **fixe**, pas besoin de cohérence entre plusieurs versions.
 
 Meilleure approche : **une seule illustration IA** (Midjourney ou NovelAI, 5 min de génération), puis conversion en SVG.
 
@@ -197,7 +197,7 @@ Ensuite dans Inkscape : `Path > Trace Bitmap > Colors` pour convertir en SVG vec
 
 ---
 
-## 📋 Récapitulatif décisionnel
+## Récapitulatif décisionnel
 
 | Ton profil = | Reco |
 |---|---|

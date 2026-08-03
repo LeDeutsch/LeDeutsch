@@ -1,10 +1,10 @@
-# 🗺️ ROADMAP
+# ROADMAP
 
 Ce qu'il reste à faire, classé par phase.
 
 ---
 
-## ✅ MVP + Session 2 (livrés)
+## MVP + Session 2 (livrés)
 
 **Session 1 (MVP) :**
 - [x] Structure de projet
@@ -33,7 +33,7 @@ Ce qu'il reste à faire, classé par phase.
 
 ---
 
-## 🎨 Phase 1 — Assets réels
+## Phase 1 — Assets réels
 
 - [x] ~~Choisir la voie assets~~ → commission artiste
 - [x] ~~Fond de guilde définitif~~ → livré en session 3, magnifique
@@ -48,7 +48,7 @@ Ce qu'il reste à faire, classé par phase.
 
 ---
 
-## 📜 Phase 2 — Compléter les quêtes
+## Phase 2 — Compléter les quêtes
 
 Chaque quête placeholder à transformer en mini-jeu réel.
 
@@ -62,7 +62,7 @@ Chaque quête placeholder à transformer en mini-jeu réel.
 
 ---
 
-## ✨ Phase 3 — Vitalité renforcée
+## Phase 3 — Vitalité renforcée
 
 - [x] ~~Micro-animations SMIL (breathing, blink, torch flicker)~~ ← fait en session 2
 - [ ] **Répliques IA** : appel API Claude Haiku dans `pick_dialogue()`, la mascotte génère ses répliques en fonction du vrai commit message + son "personnage"
@@ -76,7 +76,7 @@ Chaque quête placeholder à transformer en mini-jeu réel.
 
 ---
 
-## 🎮 Phase 4 — Interactivité poussée
+## Phase 4 — Interactivité poussée
 
 - [ ] **Système d'échecs jouable via issues** (bonus : chaque coup avance la scène — pion mangé = un NPC part)
 - [ ] **Livre d'or** : les visiteurs signent via une issue, la mascotte les cite
@@ -84,7 +84,7 @@ Chaque quête placeholder à transformer en mini-jeu réel.
 
 ---
 
-## 🧪 Idées « pourquoi pas »
+## Idées « pourquoi pas »
 
 - Boss de fin invocable une fois toutes les quêtes complétées (Cthulhu-like ASCII)
 - Compteur de visiteurs affiché comme "aventuriers accueillis aujourd'hui"
@@ -94,7 +94,7 @@ Chaque quête placeholder à transformer en mini-jeu réel.
 
 ---
 
-## 📅 Priorité conseillée pour prochaine session
+## Priorité conseillée pour prochaine session
 
 Ludwig reprendra quand il aura les vrais assets.
 

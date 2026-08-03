@@ -1,6 +1,6 @@
-# 🌀 Diagnostic : *Ventilateur bloqué*
+# Diagnostic : *Ventilateur bloqué*
 
-## ❌ L'hôtesse fronce les sourcils.
+## L'hôtesse fronce les sourcils.
 
 > *« Regarde les Fan RPM : **3200**, c'est justement TRÈS élevé.
 > Un ventilateur bloqué serait à 0 RPM ou très bas, et la température exploserait
@@ -9,8 +9,8 @@
 
 ---
 
-## 🔍 Le bon indice à suivre
+## Le bon indice à suivre
 
 Le ventilateur ne peut pas refroidir → mauvais **transfert thermique** entre le CPU et le dissipateur.
 
-- [🔙 Retour à la quête](README.md)
+- [Retour à la quête](README.md)

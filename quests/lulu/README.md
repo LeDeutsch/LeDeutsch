@@ -1,17 +1,17 @@
-# 🎨 Quête : Tisser les Voiles de Style
+# Quête : Tisser les Voiles de Style
 
-**Rang :** ⭐⭐ B · **Type :** Illusion · **Récompense :** Titre *« Tisserand du Web »*
+**Rang :**B · **Type :**Illusion · **Récompense :** Titre *« Tisserand du Web »*
 
 ---
 
-## 📖 Contexte
+## Contexte
 
 > *« Une illusion sans forme cherche son habit.
 > Sauras-tu la parer des bons voiles CSS ? »*
 
 ---
 
-## 🚧 Quête en construction
+## Quête en construction
 
 Mini-jeu prévu : **choisir la bonne classe CSS** pour habiller un composant HTML. Reveal montre le vrai rendu.
 

@@ -1,4 +1,4 @@
-# 🎨 Credits
+# Credits
 
 ## Guild Hall Background Art
 
@@ -7,10 +7,10 @@ commissioned from and drawn by:
 
 ### **Aome** (`@aome_art` on Fiverr)
 
-- 🎨 Gig: [*I will draw anime background for visual novel, vtuber or game illustrations*](https://www.fiverr.com/aome_art)
-- ⭐ Level 2 seller, 5.0 rating (297+ reviews)
-- 📆 Delivered: July 2026
-- 📦 Deliverables: 9 layered PNG files (1920×1080, alpha-transparent) covering
+- Gig: [*I will draw anime background for visual novel, vtuber or game illustrations*](https://www.fiverr.com/aome_art)
+- Level 2 seller, 5.0 rating (297+ reviews)
+- Delivered: July 2026
+- Deliverables: 9 layered PNG files (1920×1080, alpha-transparent) covering
   the outside light, walls, second-floor balustrade, lanterns + guild banner,
   quest board with parchments, background benches, wooden counter frame with
   arches and side chairs, foreground chair, and front counter strip.
