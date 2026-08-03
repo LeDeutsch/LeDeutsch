@@ -37,8 +37,8 @@ VALID_POSES = ("idle", "code", "sleep", "drink", "proud", "wave")
 BG_LAYERS = (
     "01_outside.png",
     "02_walls.png",
-    "03_lamps_flag.png",
     "04_second_floor.png",
+    "03_lamps_flag.png",
     "05_background_chairs.png",
     "06_counter_frame.png",
     "07_front_chair.png",
