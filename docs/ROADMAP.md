@@ -23,19 +23,25 @@ Ce qu'il reste à faire, classé par phase.
 - [x] Arbre de dialogue basique (`dialog/greet.md`, `dialog/rest.md`, etc.)
 - [x] Animations SMIL : respiration, clignements, torches vacillantes, sparkles, vapeur, Zzz
 
+**Session 3 (intégration assets commissionnés) :**
+- [x] Fond de guilde professionnel livré par artiste (9 couches PNG 1920×1080)
+- [x] Migration `assets/NewAssets/` → `assets/scene/` avec noms numérotés
+- [x] ViewBox scène : `1200×600` → `1920×1080`
+- [x] Générateur refactoré : composite PIL + embed base64 (évite CORS)
+- [x] Mascotte placeholder repositionnée pour nouveau scale
+- [x] Workflow Action : ajout dep `Pillow`
+
 ---
 
 ## 🎨 Phase 1 — Assets réels
 
-Priorité : remplacer les placeholders par de vrais assets. Voir [ASSETS.md](ASSETS.md).
-
-- [ ] Choisir la voie assets (Vroid recommandé pour MVP)
-- [ ] **Fond de guilde** définitif (Midjourney ou commission)
-- [ ] **Mascotte** en 6 poses cohérentes
-- [ ] Nommer l'hôtesse (Skadi ? Iris ? Yuna ? à toi de voir)
-- [ ] Nommer la guilde (« Guilde d'Aincrad » ? « Guilde des Bidouilleurs » ? etc.)
-- [ ] NPCs de fond plus soignés (2-3 silhouettes)
-- [ ] Props (papiers, tasses) plus jolis
+- [x] ~~Choisir la voie assets~~ → commission artiste
+- [x] ~~Fond de guilde définitif~~ → livré en session 3, magnifique
+- [ ] **Mascotte** en poses cohérentes — Vroid ou commission à venir
+- [ ] Nommer l'hôtesse
+- [ ] Nommer la guilde
+- [x] ~~NPCs de fond soignés~~ → déjà intégrés dans les couches livrées (chaises + comptoir + bancs)
+- [ ] Variantes lumière extérieure (`Outside_dusk.png`, `Outside_night.png`) — commission future
 
 **Coût estimé** : 0-150€ selon la voie choisie
 **Effort** : 1 weekend (Vroid) à 2 semaines (commission)

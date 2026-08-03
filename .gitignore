@@ -3,3 +3,9 @@ __pycache__/
 .DS_Store
 .venv/
 .env
+
+# Preview / debug files (regenerated locally)
+output/preview_*.png
+
+# Raw designer delivery (already copied to assets/scene/)
+assets/NewAssets/

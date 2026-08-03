@@ -147,3 +147,54 @@ Options rappelées (voir `docs/ASSETS.md` pour détails complets) :
 3. **Enrichir l'arbre de dialogue** — plus de branches, plus de fins
 4. **Compléter au moins 1 quête de plus** (SAO-Utils ou Estiam-RFID)
 5. **(Optionnel) Brancher l'API Claude** pour dialogues auto-générés à partir des commits
+
+---
+
+## 🗓️ Session 3 — 2026-08-03 (intégration assets commissionnés)
+
+### 🎯 Contexte
+
+Ludwig a reçu les assets commissionnés à un designer — **magnifiques**. Un vrai fond de guilde style JRPG anime avec 9 couches PNG séparées (1920×1080 chacune). Les couches livrées :
+
+- `Outside.png` — lumière derrière fenêtres (jour)
+- `BackgroundWalls.png` — murs + fenêtres
+- `LampsFlag.png` — lanternes + bannière rouge centrale avec blason 🛡️⚔️
+- `SecondFloor.png` — balustrade étage + colonnes
+- `BackgroundChairs.png` — tableau des quêtes + bancs arrière-plan
+- `WoodenCounterChairs.png` — arches + comptoir + 2 chaises latérales + étagères
+- `FrontChair.png` — chaise avant (dos à nous)
+- `FrontCounter.png` — bande de comptoir premier plan
+- `AdventurersGuildFinal.png` — assemblage complet pour référence
+
+### ✅ Ce qui a été fait
+
+- **Assets migrés** de `assets/NewAssets/` (livraison brute) vers `assets/scene/` avec noms numérotés (`01_outside.png` → `08_front_counter.png`) pour clarté du z-order
+- **`.gitignore` mis à jour** : exclut `assets/NewAssets/` (déjà copié) et `output/preview_*.png`
+- **Générateur refactoré** :
+  - ViewBox : `1200×600` → `1920×1080` (16:9, matche assets)
+  - Composite via PIL (`alpha_composite`) puis embed en base64 dans le SVG (évite tout problème CORS avec les images externes)
+  - Deux composites : `BG_LAYERS` (couches 1-7 incluant FrontChair) + `FG_LAYERS` (couche 8 = FrontCounter uniquement)
+  - Mascotte placeholder wrapped dans `<svg viewBox="480 80 330 390">` nesté pour positionnement dans le nouveau scale (crop du bounding box mascotte + repositionnement dans le comptoir)
+- **Workflow GitHub Action** : ajout de `pip install Pillow` (nouvelle dépendance)
+- **Bulle de dialogue** repositionnée pour le nouveau viewBox 1920×1080
+
+### 🎨 Décisions de composition
+
+- **Mascotte au premier plan facing us** (Option Ludwig) — grande, prominente, devant la chaise du foreground
+- **Layer order** : `bg (7 layers baked incl. FrontChair)` → `mascot` → `FrontCounter` → `lighting overlay` → `dialogue bubble`. La mascotte est ainsi devant la chaise (visible en entier) mais coupée à la taille par le comptoir avant
+- **Jour/nuit** : approche gratuite via l'overlay lumière existant qui teinte tout, y compris `Outside.png`. Ludwig commandera des variantes `Outside_dusk.png` / `Outside_night.png` plus tard
+- **Fichiers SVG output** : chaque scène pèse ~4MB à cause du base64. 7 scènes = ~28MB dans `output/`. Acceptable, marche partout sur GitHub sans CORS
+
+### 🚧 Ce qui reste à faire
+
+- **Remplacer la mascotte placeholder** par la Vroid / commission perso quand elle arrive. Il faudra :
+  - Ajuster `MASCOT_X, MASCOT_Y, MASCOT_W, MASCOT_H` dans `generate_scene.py` selon les dimensions de la vraie mascotte
+  - Éventuellement passer d'un SVG mascotte à un PNG mascotte (loader différent, mais simple)
+- **Optionnel** : demander à l'artiste des variantes `Outside_night.png` et `Outside_dusk.png` pour un jour/nuit plus riche
+- **Enrichir l'arbre de dialogue** avec la nouvelle esthétique
+
+### 📅 Priorités prochaine session
+
+1. **Intégration de la Vroid/mascotte perso** (le dernier gros bloc visuel manquant)
+2. **Nommer** la guilde et l'hôtesse (Ludwig doit trancher)
+3. **Ajouter les commissions futures** : variantes de lumière, poses supplémentaires, quêtes détaillées

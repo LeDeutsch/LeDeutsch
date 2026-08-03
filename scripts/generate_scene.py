@@ -9,24 +9,48 @@ owner's recent GitHub activity.
 
 from __future__ import annotations
 
+import base64
 import json
 import os
 import sys
 import urllib.error
 import urllib.request
 from datetime import datetime, timezone
+from functools import lru_cache
+from io import BytesIO
 from pathlib import Path
+
+from PIL import Image
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ASSETS = REPO_ROOT / "assets"
+SCENE_DIR = ASSETS / "scene"
 OUTPUT = REPO_ROOT / "output" / "scene.svg"
 README = REPO_ROOT / "README.md"
 
 GITHUB_USER = os.environ.get("GITHUB_USER", "LeDeutsch")
-SCENE_WIDTH = 1200
-SCENE_HEIGHT = 600
+SCENE_WIDTH = 1920
+SCENE_HEIGHT = 1080
 
-VALID_POSES = {"idle", "code", "sleep", "drink", "proud", "wave"}
+VALID_POSES = ("idle", "code", "sleep", "drink", "proud", "wave")
+
+BG_LAYERS = (
+    "01_outside.png",
+    "02_walls.png",
+    "03_lamps_flag.png",
+    "04_second_floor.png",
+    "05_background_chairs.png",
+    "06_counter_frame.png",
+    "07_front_chair.png",
+)
+
+FG_LAYERS = (
+    "08_front_counter.png",
+)
+
+MASCOT_INNER_VIEWBOX = (480, 80, 330, 390)
+MASCOT_X, MASCOT_Y = 500, 250
+MASCOT_W, MASCOT_H = 900, 900
 
 
 def fetch_recent_activity(user: str) -> tuple[float | None, int, str]:
@@ -124,24 +148,50 @@ def read_asset(rel_path: str) -> str:
 
 
 def build_dialogue_bubble(text: str) -> str:
-    return f"""<g id="dialogue" transform="translate(680, 210)">
-  <rect x="0" y="0" width="380" height="70" rx="14" fill="#fffaf0" stroke="#5d3a26" stroke-width="3"/>
-  <polygon points="30,70 45,70 20,95" fill="#fffaf0" stroke="#5d3a26" stroke-width="3"/>
-  <polygon points="32,71 43,71 22,93" fill="#fffaf0"/>
-  <text x="20" y="40" font-size="16" fill="#3a2820" font-family="Georgia, serif">{text}</text>
+    return f"""<g id="dialogue" transform="translate(1220, 380)">
+  <rect x="0" y="0" width="600" height="100" rx="20" fill="#fffaf0" stroke="#5d3a26" stroke-width="4"/>
+  <polygon points="50,100 80,100 30,140" fill="#fffaf0" stroke="#5d3a26" stroke-width="4"/>
+  <polygon points="53,102 78,102 33,137" fill="#fffaf0"/>
+  <text x="30" y="60" font-size="24" fill="#3a2820" font-family="Georgia, serif">{text}</text>
 </g>"""
 
 
+@lru_cache(maxsize=2)
+def composite_layers(layer_files: tuple[str, ...]) -> str:
+    """Alpha-composite PNG layers and return as base64 PNG data URI (cached)."""
+    base = None
+    for name in layer_files:
+        path = SCENE_DIR / name
+        img = Image.open(path).convert("RGBA")
+        if base is None:
+            base = Image.new("RGBA", img.size, (0, 0, 0, 0))
+        base = Image.alpha_composite(base, img)
+
+    buf = BytesIO()
+    base.save(buf, format="PNG", optimize=True)
+    b64 = base64.b64encode(buf.getvalue()).decode("ascii")
+    return f"data:image/png;base64,{b64}"
+
+
+def wrap_mascot(mascot_svg_content: str) -> str:
+    """Place the mascot placeholder (designed for 1200x600) into the new 1920x1080 scene."""
+    vb = " ".join(str(v) for v in MASCOT_INNER_VIEWBOX)
+    return (
+        f'<svg x="{MASCOT_X}" y="{MASCOT_Y}" width="{MASCOT_W}" height="{MASCOT_H}" '
+        f'viewBox="{vb}" overflow="visible">{mascot_svg_content}</svg>'
+    )
+
+
 def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None = None) -> str:
-    background = read_asset("background/guild_hall.svg")
-    npcs = read_asset("npcs/npc_layer.svg")
-    mascot = read_asset(f"mascot/{pose}.svg")
+    bg_uri = composite_layers(BG_LAYERS)
+    fg_uri = composite_layers(FG_LAYERS)
+    mascot = wrap_mascot(read_asset(f"mascot/{pose}.svg"))
 
     props = ""
     if workload >= 3:
-        props += read_asset("props/papers.svg")
+        props += wrap_mascot(read_asset("props/papers.svg"))
     if workload >= 6:
-        props += read_asset("props/coffee.svg")
+        props += wrap_mascot(read_asset("props/coffee.svg"))
 
     lighting_rect = (
         f'<rect x="0" y="0" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}" '
@@ -152,11 +202,11 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
 
     return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {SCENE_WIDTH} {SCENE_HEIGHT}" font-family="'Segoe UI', Verdana, sans-serif">
   <title>Guilde des Aventuriers de LeDeutsch — {lighting['label']} — {pose}</title>
-  {background}
-  {npcs}
-  {props}
-  {lighting_rect}
+  <image href="{bg_uri}" x="0" y="0" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}"/>
   {mascot}
+  {props}
+  <image href="{fg_uri}" x="0" y="0" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}"/>
+  {lighting_rect}
   {bubble}
 </svg>
 """
