@@ -19,7 +19,7 @@
 ---
 
 <!-- SCENE-META:START -->
-<sub>Scène : **idle** · lumière : **day** · commits 24h : **0** · maj : 2026-08-03 14:50 UTC</sub>
+<sub>Scène : **idle** · lumière : **dusk** · commits 24h : **0** · maj : 2026-08-03 17:11 UTC</sub>
 <!-- SCENE-META:END -->
 
 <sub>Guild hall art commissioned from **[Aome](https://www.fiverr.com/aome_art)** · commercial use licensed · [CREDITS](CREDITS.md) · [LICENSE](LICENSE)</sub>
