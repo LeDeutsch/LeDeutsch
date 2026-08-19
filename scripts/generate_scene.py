@@ -87,10 +87,9 @@ HAIR_PIVOT_X = int(MASCOT_X + 2521 * MASCOT_W / 5000)
 HAIR_PIVOT_Y = int(MASCOT_Y + 220 * MASCOT_H / 2750)
 
 # Bracelet positions (raw x/y in Lucy canvas -> scene coords).
-# Located via gold-cluster detection on the composited idle PNG.
 BRACELET_POSITIONS = (
-    (2487, 2609),  # resting arm bracelet (on counter)
-    (2587, 1206),  # raised arm bracelet (below chin mitten)
+    (2200, 2450),  # resting arm bracelet (on counter, at wrist)
+    (2670, 1200),  # raised arm bracelet (below chin mitten)
 )
 
 # Window centres in scene coords for sun rays (matching Aome background windows).
@@ -101,18 +100,19 @@ POSES_WITH_SMILE_PULSE = frozenset({"idle"})
 
 # SMIL animation values.
 BLINK_ANIM = (
-    # calcMode="discrete" = instant swap, no fade between values, no ghosting
-    # of the base open eyes during transitions.
-    '<animate attributeName="opacity" values="0;1;0" keyTimes="0;0.92;0.96" '
-    'calcMode="discrete" dur="5s" repeatCount="indefinite"/>'
+    # Fluid but very fast fade edges (150ms) : smooth transitions minimize
+    # visible ghosting of base open eyes at partial opacity.
+    '<animate attributeName="opacity" values="0;0;1;1;0" '
+    'keyTimes="0;0.93;0.955;0.985;1" dur="7s" repeatCount="indefinite"/>'
 )
 BLUSH_PULSE_ANIM = (
     '<animate attributeName="opacity" '
     'values="0.2;1;0.2" dur="3.5s" repeatCount="indefinite"/>'
 )
 SMILE_PULSE_ANIM = (
-    '<animate attributeName="opacity" '
-    'values="0;0;0;0.5;0.9;0.5;0;0" dur="6s" repeatCount="indefinite"/>'
+    # Same fluid-fast principle : quick fade edges, held open smile briefly.
+    '<animate attributeName="opacity" values="0;0;1;1;0" '
+    'keyTimes="0;0.88;0.92;0.96;1" dur="9s" repeatCount="indefinite"/>'
 )
 SWEAT_DRIP_TRANSLATE = (
     '<animateTransform attributeName="transform" type="translate" '
@@ -376,43 +376,28 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
                 f'{SWEAT_DRIP_TRANSLATE}{SWEAT_DRIP_OPACITY}</image>'
             )
 
-    # Gold bracelet glint : radial gradient sparkle (soft glow, no filter needed).
+    # Gold bracelet glint : bigger, brighter radial sparkle for visibility.
     bracelet_glints = []
     for raw_x, raw_y in BRACELET_POSITIONS:
         cx = int(MASCOT_X + raw_x * MASCOT_W / 5000)
         cy = int(MASCOT_Y + raw_y * MASCOT_H / 2750)
-        r = int(45 * MASCOT_W / 5000)
+        r = int(180 * MASCOT_W / 5000)  # larger halo for visibility
         bracelet_glints.append(
             f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="url(#braceletGlint)" opacity="0">'
-            f'<animate attributeName="opacity" values="0;0.7;0" dur="3s" repeatCount="indefinite"/>'
+            f'<animate attributeName="opacity" values="0;0.9;0" dur="3s" repeatCount="indefinite"/>'
             f'</circle>'
         )
     bracelet_glow = "".join(bracelet_glints)
 
-    # Sun rays from windows : subtle warm gradient rays visible only during day/dawn/dusk.
+    # Sun rays removed by user request.
     sun_rays = ""
-    if lighting["label"] in ("dawn", "day", "dusk"):
-        ray_amp = 0.25 if lighting["label"] == "day" else 0.15
-        ray_parts = []
-        for wx in WINDOW_CENTERS:
-            ray_parts.append(
-                f'<polygon points="{wx-40},200 {wx+40},200 {wx+220},900 {wx-220},900" '
-                f'fill="url(#sunGrad)" opacity="{ray_amp * 0.6}">'
-                f'<animate attributeName="opacity" values="{ray_amp * 0.3};{ray_amp};{ray_amp * 0.3}" '
-                f'dur="8s" repeatCount="indefinite"/></polygon>'
-            )
-        sun_rays = "".join(ray_parts)
 
-    # SVG defs (gradients used by sun rays and bracelet glow).
+    # SVG defs (gradients used by bracelet glow).
     svg_defs = f'''<defs>
-  <linearGradient id="sunGrad" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%" stop-color="#fff4c8" stop-opacity="0.9"/>
-    <stop offset="100%" stop-color="#fff4c8" stop-opacity="0"/>
-  </linearGradient>
   <radialGradient id="braceletGlint" cx="50%" cy="50%" r="50%">
     <stop offset="0%" stop-color="#fff8dc" stop-opacity="1"/>
-    <stop offset="40%" stop-color="#ffe680" stop-opacity="0.6"/>
-    <stop offset="100%" stop-color="#ffe680" stop-opacity="0"/>
+    <stop offset="30%" stop-color="#ffdb4d" stop-opacity="0.8"/>
+    <stop offset="100%" stop-color="#ffdb4d" stop-opacity="0"/>
   </radialGradient>
 </defs>'''
 
