@@ -87,9 +87,10 @@ HAIR_PIVOT_X = int(MASCOT_X + 2521 * MASCOT_W / 5000)
 HAIR_PIVOT_Y = int(MASCOT_Y + 220 * MASCOT_H / 2750)
 
 # Bracelet positions (raw x/y in Lucy canvas -> scene coords).
+# Located via gold-cluster detection on the composited idle PNG.
 BRACELET_POSITIONS = (
-    (1880, 2540),  # resting arm bracelet (on counter)
-    (2925, 1130),  # raised arm bracelet (near chin)
+    (2487, 2609),  # resting arm bracelet (on counter)
+    (2587, 1206),  # raised arm bracelet (below chin mitten)
 )
 
 # Window centres in scene coords for sun rays (matching Aome background windows).
@@ -100,8 +101,10 @@ POSES_WITH_SMILE_PULSE = frozenset({"idle"})
 
 # SMIL animation values.
 BLINK_ANIM = (
-    '<animate attributeName="opacity" '
-    'values="0;0;0;0;0;0;0;0;0.3;0.7;1;0.7;0.3;0" dur="5s" repeatCount="indefinite"/>'
+    # calcMode="discrete" = instant swap, no fade between values, no ghosting
+    # of the base open eyes during transitions.
+    '<animate attributeName="opacity" values="0;1;0" keyTimes="0;0.92;0.96" '
+    'calcMode="discrete" dur="5s" repeatCount="indefinite"/>'
 )
 BLUSH_PULSE_ANIM = (
     '<animate attributeName="opacity" '
