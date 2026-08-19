@@ -1,6 +1,6 @@
 <div align="center">
 
-![L'hôtesse te sourit fièrement](../output/scene_proud.svg)
+![L'hôtesse te sourit fièrement](../output/scene_happy.svg)
 
 ---
 

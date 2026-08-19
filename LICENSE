@@ -43,19 +43,23 @@ VISUAL ASSETS — All Rights Reserved
 
 The following files are NOT covered by the MIT License:
 
-  - assets/scene/*.png  (guild hall background layers)
-  - output/*.svg        (composited scenes containing the above assets as
-                         embedded base64 PNG data)
+  - assets/scene/*.png     (guild hall background layers, by Aome)
+  - assets/mascot/**/*.png (Lucy character expressions, by VARO)
+  - output/*.svg           (composited scenes containing the above assets
+                             as embedded base64 PNG data)
 
-These visual assets are © Aome (@aome_art on Fiverr) and © Dinspel Ludwig Junior.
-Commercial use rights were granted to Dinspel Ludwig Junior by the artist for
-this specific project.
+These visual assets are the intellectual property of their respective artists
+(Aome for the background, VARO for the character) and © Dinspel Ludwig Junior.
+Commercial use rights were granted to Dinspel Ludwig Junior by each artist
+for this specific project.
 
 Any reuse, redistribution, copy, adaptation, or derivative work of these visual
-assets — in whole or in part — WITHOUT the explicit written permission of both
-the artist Aome and Dinspel Ludwig Junior IS PROHIBITED.
+assets - in whole or in part - WITHOUT the explicit written permission of both
+the original artist and Dinspel Ludwig Junior IS PROHIBITED.
 
-If you want similar art for your own project, please commission Aome directly:
-  https://www.fiverr.com/aome_art
+If you want similar art for your own project, please commission these artists
+directly:
+  - Background: https://www.fiverr.com/aome_art
+  - Character: https://www.fiverr.com/varotionist
 
 See CREDITS.md for details.

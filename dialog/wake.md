@@ -1,6 +1,6 @@
 <div align="center">
 
-![L'hôtesse se réveille en sursaut](../output/scene_wave.svg)
+![L'hôtesse se réveille en sursaut](../output/scene_laugh.svg)
 
 ---
 

@@ -24,15 +24,39 @@ or game illustration, I recommend Aome without hesitation.
 
 ---
 
+## Guild Hostess Character (Lucy)
+
+The main character featured on this profile - Lucy, the mature elven guild
+hostess - was commissioned from and drawn by:
+
+### **VARO** (`@varotionist` on Fiverr)
+
+- Gig: [*I will draw custom character sheet or reference sheet for character design*](https://www.fiverr.com/varotionist)
+- Level 2 seller, 5.0 rating
+- Delivered: August 2026
+- Deliverables: 1 layered PSD source file + 6 rendered PNG expressions
+  (idle, laugh, happy, neutral, sad, embarrassed), waist-up composition,
+  transparent background. Layers separated for eyes, mouths, hair, body
+  parts to enable programmatic animation on my end.
+
+VARO delivered on time, in high quality, and included **commercial use rights**
+in the gig terms. Excellent communication throughout the process.
+
+If you're looking for custom anime character illustrations or character sheets,
+I recommend VARO without hesitation.
+
+---
+
 ## Rights & Usage
 
-The visual assets (all PNG files under `assets/scene/`) are the **intellectual
-property of Aome and Dinspel Ludwig Junior**. Commercial usage was granted to
-Ludwig by the artist for this specific project.
+The visual assets (all PNG files under `assets/scene/` and `assets/mascot/`)
+are the **intellectual property of the respective artists (Aome, VARO) and
+Dinspel Ludwig Junior**. Commercial usage was granted to Ludwig by each
+artist for this specific project.
 
 **Please do not reuse, redistribute, or copy these assets** without
-independently commissioning your own art from Aome or another artist. Doing so
-would be theft of both the artist's work and Ludwig's paid commission.
+independently commissioning your own art from these artists. Doing so
+would be theft of both the artists' work and Ludwig's paid commissions.
 
 ---
 

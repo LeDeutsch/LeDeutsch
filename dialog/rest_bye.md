@@ -1,6 +1,6 @@
 <div align="center">
 
-![L'hôtesse dort paisiblement](../output/scene_sleep.svg)
+![L'hôtesse dort paisiblement](../output/scene_neutral.svg)
 
 ---
 

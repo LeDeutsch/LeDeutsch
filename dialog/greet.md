@@ -1,6 +1,6 @@
 <div align="center">
 
-![L'hôtesse te salue](../output/scene_wave.svg)
+![L'hôtesse te salue](../output/scene_laugh.svg)
 
 ---
 

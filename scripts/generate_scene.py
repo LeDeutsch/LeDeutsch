@@ -32,7 +32,10 @@ GITHUB_USER = os.environ.get("GITHUB_USER", "LeDeutsch")
 SCENE_WIDTH = 1920
 SCENE_HEIGHT = 1080
 
-VALID_POSES = ("idle", "code", "sleep", "drink", "proud", "wave")
+MASCOT_DIR = ASSETS / "mascot" / "lucy"
+
+# Available Lucy expressions (Lucy PNG filename without extension)
+VALID_POSES = ("idle", "laugh", "happy", "neutral", "sad", "embarrassed")
 
 BG_LAYERS = (
     "01_outside.png",
@@ -48,9 +51,10 @@ FG_LAYERS = (
     "08_front_counter.png",
 )
 
-MASCOT_INNER_VIEWBOX = (480, 80, 330, 390)
-MASCOT_X, MASCOT_Y = 500, 250
-MASCOT_W, MASCOT_H = 900, 900
+# Lucy PNG canvas is 5000x2750 with the character occupying bbox (1542, 62, 3608, 2697).
+# We place her so she appears centered-horizontal, waist cut by front counter.
+MASCOT_X, MASCOT_Y = 177, 230
+MASCOT_W, MASCOT_H = 1520, 836
 
 
 def fetch_recent_activity(user: str) -> tuple[float | None, int, str]:
@@ -89,17 +93,18 @@ def fetch_recent_activity(user: str) -> tuple[float | None, int, str]:
 
 
 def pick_pose(hour: int, hours_since_push: float | None, msg: str) -> str:
+    """Map current context to a Lucy expression (matches VALID_POSES filenames)."""
     if hour < 6 or hour >= 23:
-        return "sleep"
-    if hours_since_push is not None and hours_since_push < 1:
-        return "code"
+        return "neutral"  # closed eyes calm, "sleeping" mode
     if hours_since_push is not None and hours_since_push > 72:
-        return "drink"
+        return "sad"  # nobody has visited her in a while
     lower = msg.lower()
+    if any(kw in lower for kw in ("revert", "hotfix")):
+        return "embarrassed"  # oops
     if any(kw in lower for kw in ("fix", "bug")):
-        return "proud"
+        return "happy"  # bug slain, closed happy eyes
     if any(kw in lower for kw in ("feat", "add")):
-        return "wave"
+        return "laugh"  # new feature, cheerful open-mouth
     return "idle"
 
 
@@ -118,14 +123,14 @@ def pick_lighting(hour: int) -> dict:
 def pick_dialogue(pose: str, msg: str) -> str:
     snippets = {
         "idle": "Bienvenue, aventurier·ère. Quelle quête cherches-tu ?",
-        "code": "Chut... il est en pleine session. Une nouvelle quête arrive.",
-        "sleep": "Zzz... reviens à l'aube, brave âme.",
-        "drink": "Aucun signe de lui depuis des jours... du thé ?",
-        "proud": "Une créature de bug vient d'être terrassée !",
-        "wave": "Ohé ! Une nouvelle fonctionnalité vient d'éclore.",
+        "neutral": "Chut... reviens plus tard, la guilde est calme.",
+        "sad": "Personne n'est passé depuis longtemps... reste un peu ?",
+        "happy": "Une créature de bug vient d'être terrassée !",
+        "laugh": "Ohé ! Une nouvelle fonctionnalité vient d'éclore.",
+        "embarrassed": "Ah... ce n'était pas mon meilleur choix.",
     }
     text = snippets.get(pose, snippets["idle"])
-    if pose in ("code", "proud", "wave") and msg:
+    if pose in ("happy", "laugh", "embarrassed") and msg:
         first_line = msg.splitlines()[0][:60]
         text = f"{text} ({first_line})"
     return _xml_escape(text)
@@ -173,25 +178,38 @@ def composite_layers(layer_files: tuple[str, ...]) -> str:
     return f"data:image/png;base64,{b64}"
 
 
-def wrap_mascot(mascot_svg_content: str) -> str:
-    """Place the mascot placeholder (designed for 1200x600) into the new 1920x1080 scene."""
-    vb = " ".join(str(v) for v in MASCOT_INNER_VIEWBOX)
-    return (
-        f'<svg x="{MASCOT_X}" y="{MASCOT_Y}" width="{MASCOT_W}" height="{MASCOT_H}" '
-        f'viewBox="{vb}" overflow="visible">{mascot_svg_content}</svg>'
-    )
+@lru_cache(maxsize=len(VALID_POSES))
+def load_mascot_png(pose: str) -> str:
+    """Load a Lucy expression PNG, downscale for web, return as base64 data URI."""
+    path = MASCOT_DIR / f"lucy_{pose}.png"
+    if not path.exists():
+        print(f"[warn] missing mascot: {path}", file=sys.stderr)
+        path = MASCOT_DIR / "lucy_idle.png"
+    img = Image.open(path).convert("RGBA")
+
+    # Source Lucy PNGs are 5000x2750 (~2MB each). We only render them
+    # at ~1520 pixels wide in the scene, so 2x retina = 3040 max width.
+    # Downscale keeps repo lean without visible quality loss.
+    target_width = min(3040, img.width)
+    if img.width > target_width:
+        target_height = int(img.height * target_width / img.width)
+        img = img.resize((target_width, target_height), Image.LANCZOS)
+
+    buf = BytesIO()
+    img.save(buf, format="PNG", optimize=True)
+    b64 = base64.b64encode(buf.getvalue()).decode("ascii")
+    return f"data:image/png;base64,{b64}"
 
 
 def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None = None) -> str:
     bg_uri = composite_layers(BG_LAYERS)
     fg_uri = composite_layers(FG_LAYERS)
-    mascot = wrap_mascot(read_asset(f"mascot/{pose}.svg"))
+    mascot_uri = load_mascot_png(pose)
 
-    props = ""
-    if workload >= 3:
-        props += wrap_mascot(read_asset("props/papers.svg"))
-    if workload >= 6:
-        props += wrap_mascot(read_asset("props/coffee.svg"))
+    mascot_img = (
+        f'<image href="{mascot_uri}" x="{MASCOT_X}" y="{MASCOT_Y}" '
+        f'width="{MASCOT_W}" height="{MASCOT_H}"/>'
+    )
 
     lighting_rect = (
         f'<rect x="0" y="0" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}" '
@@ -201,10 +219,9 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
     bubble = build_dialogue_bubble(dialogue) if dialogue else ""
 
     return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {SCENE_WIDTH} {SCENE_HEIGHT}" font-family="'Segoe UI', Verdana, sans-serif">
-  <title>Guilde des Aventuriers de LeDeutsch — {lighting['label']} — {pose}</title>
+  <title>Guilde des Aventuriers de LeDeutsch - {lighting['label']} - {pose}</title>
   <image href="{bg_uri}" x="0" y="0" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}"/>
-  {mascot}
-  {props}
+  {mascot_img}
   <image href="{fg_uri}" x="0" y="0" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}"/>
   {lighting_rect}
   {bubble}
