@@ -64,19 +64,35 @@ MASCOT_ARM_OVERLAYS = (
 MASCOT_CLOSED_EYES_OVERLAY = "lucy_closed_eyes_overlay.png"
 POSES_WITH_OPEN_EYES = frozenset({"idle", "laugh", "sad", "embarrassed"})
 
+# Hair overlays for the sway animation.
+MASCOT_HAIR_OVERLAYS = (
+    ("lucy_hair_overlay.png", 0.4, 7.0),        # back hair : slower, wider sway
+    ("lucy_front_hair_overlay.png", 0.3, 5.5),  # front hair : slightly faster, subtler
+)
+
 # Lucy PNG canvas is 5000x2750 with the character occupying bbox (1542, 62, 3608, 2697).
 # We place her so she appears centered-horizontal, waist cut by front counter.
 MASCOT_X, MASCOT_Y = 177, 230
 MASCOT_W, MASCOT_H = 1520, 836
 
-# SMIL animation values (breathing loop + blink cycle) shared by all mascot images.
-BREATHING_ANIM = (
-    '<animateTransform attributeName="transform" type="translate" '
-    'values="0,0;0,-3;0,0" dur="4s" repeatCount="indefinite" additive="sum"/>'
-)
+# Hair sway pivot (top of head in scene coords): head-top raw y=~200, head-center raw x=~2521
+HAIR_PIVOT_X = int(MASCOT_X + 2521 * MASCOT_W / 5000)
+HAIR_PIVOT_Y = int(MASCOT_Y + 220 * MASCOT_H / 2750)
+
+# Cheek positions for blush pulse (raw x=2290/2630, y=850)
+BLUSH_LEFT_X = int(MASCOT_X + 2320 * MASCOT_W / 5000)
+BLUSH_RIGHT_X = int(MASCOT_X + 2620 * MASCOT_W / 5000)
+BLUSH_Y = int(MASCOT_Y + 830 * MASCOT_H / 2750)
+BLUSH_RADIUS = int(75 * MASCOT_W / 5000)
+
+# SMIL animation values.
 BLINK_ANIM = (
     '<animate attributeName="opacity" '
     'values="0;0;0;0;0;0;0;0;0;1;0" dur="5s" repeatCount="indefinite"/>'
+)
+BLUSH_PULSE_ANIM = (
+    '<animate attributeName="opacity" '
+    'values="0.15;0.45;0.15" dur="3.5s" repeatCount="indefinite"/>'
 )
 
 
@@ -224,7 +240,7 @@ def load_mascot_png(pose: str) -> str:
     return f"data:image/png;base64,{b64}"
 
 
-@lru_cache(maxsize=len(MASCOT_ARM_OVERLAYS) + 1)
+@lru_cache(maxsize=8)
 def load_arm_overlay_png(filename: str) -> str:
     """Load a Lucy arm overlay (extracted from PSD) and return as base64 data URI."""
     path = MASCOT_DIR / filename
@@ -245,11 +261,30 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
     bg_uri = composite_layers(BG_LAYERS)
     mascot_uri = load_mascot_png(pose)
 
-    # Breathing animation applied identically to body + arms so they stay in sync.
     mascot_img = (
         f'<image href="{mascot_uri}" x="{MASCOT_X}" y="{MASCOT_Y}" '
-        f'width="{MASCOT_W}" height="{MASCOT_H}">{BREATHING_ANIM}</image>'
+        f'width="{MASCOT_W}" height="{MASCOT_H}"/>'
     )
+
+    # Hair sway overlays applied ON TOP of body so their subtle rotation covers the
+    # baked-in hair in the base image. Each hair layer has its own amplitude+period
+    # so front and back don't move in perfect sync (feels more natural).
+    hair_imgs = []
+    for overlay_name, amp, dur in MASCOT_HAIR_OVERLAYS:
+        hair_uri = load_arm_overlay_png(overlay_name)
+        if hair_uri:
+            sway = (
+                f'<animateTransform attributeName="transform" type="rotate" '
+                f'values="-{amp} {HAIR_PIVOT_X} {HAIR_PIVOT_Y};'
+                f'{amp} {HAIR_PIVOT_X} {HAIR_PIVOT_Y};'
+                f'-{amp} {HAIR_PIVOT_X} {HAIR_PIVOT_Y}" '
+                f'dur="{dur}s" repeatCount="indefinite"/>'
+            )
+            hair_imgs.append(
+                f'<image href="{hair_uri}" x="{MASCOT_X}" y="{MASCOT_Y}" '
+                f'width="{MASCOT_W}" height="{MASCOT_H}">{sway}</image>'
+            )
+    hair_img = "\n  ".join(hair_imgs)
 
     fg_img = ""
     if FG_LAYERS:
@@ -265,7 +300,7 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
         if arm_uri:
             arm_imgs.append(
                 f'<image href="{arm_uri}" x="{MASCOT_X}" y="{MASCOT_Y}" '
-                f'width="{MASCOT_W}" height="{MASCOT_H}">{BREATHING_ANIM}</image>'
+                f'width="{MASCOT_W}" height="{MASCOT_H}"/>'
             )
     arm_img = "\n  ".join(arm_imgs)
 
@@ -277,8 +312,38 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
             blink_img = (
                 f'<image href="{blink_uri}" x="{MASCOT_X}" y="{MASCOT_Y}" '
                 f'width="{MASCOT_W}" height="{MASCOT_H}" opacity="0">'
-                f'{BREATHING_ANIM}{BLINK_ANIM}</image>'
+                f'{BLINK_ANIM}</image>'
             )
+
+    # Pulsing blush on the cheeks (subtle emotion signal, all poses).
+    blush_group = (
+        f'<g fill="#ff8b8b">'
+        f'<circle cx="{BLUSH_LEFT_X}" cy="{BLUSH_Y}" r="{BLUSH_RADIUS}" opacity="0.15">'
+        f'{BLUSH_PULSE_ANIM}</circle>'
+        f'<circle cx="{BLUSH_RIGHT_X}" cy="{BLUSH_Y}" r="{BLUSH_RADIUS}" opacity="0.15">'
+        f'{BLUSH_PULSE_ANIM}</circle>'
+        f'</g>'
+    )
+
+    # Zzz drifting up for sleep mode (neutral pose = closed eyes calm).
+    zzz_group = ""
+    if pose == "neutral":
+        zzz_x = int(MASCOT_X + 3200 * MASCOT_W / 5000)
+        zzz_y_base = int(MASCOT_Y + 300 * MASCOT_H / 2750)
+        zzz_group = f'''<g font-family="Georgia, serif" font-weight="bold" fill="#4a6a8a">
+  <text x="{zzz_x}" y="{zzz_y_base}" font-size="42" opacity="0">Z
+    <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite"/>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,-40" dur="3s" repeatCount="indefinite"/>
+  </text>
+  <text x="{zzz_x + 40}" y="{zzz_y_base - 40}" font-size="52" opacity="0">Z
+    <animate attributeName="opacity" values="0;1;0" dur="3s" begin="1s" repeatCount="indefinite"/>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,-40" dur="3s" begin="1s" repeatCount="indefinite"/>
+  </text>
+  <text x="{zzz_x + 80}" y="{zzz_y_base - 80}" font-size="62" opacity="0">Z
+    <animate attributeName="opacity" values="0;1;0" dur="3s" begin="2s" repeatCount="indefinite"/>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,-40" dur="3s" begin="2s" repeatCount="indefinite"/>
+  </text>
+</g>'''
 
     lighting_rect = (
         f'<rect x="0" y="0" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}" '
@@ -291,9 +356,12 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
   <title>Guilde des Aventuriers de LeDeutsch - {lighting['label']} - {pose}</title>
   <image href="{bg_uri}" x="0" y="0" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}"/>
   {mascot_img}
+  {hair_img}
   {blink_img}
+  {blush_group}
   {fg_img}
   {arm_img}
+  {zzz_group}
   {lighting_rect}
   {bubble}
 </svg>
