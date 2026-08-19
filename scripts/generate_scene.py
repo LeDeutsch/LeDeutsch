@@ -67,11 +67,15 @@ POSES_WITH_OPEN_EYES = frozenset({"idle", "laugh", "sad", "embarrassed"})
 # Blush overlay (natural blush cropped from VARO's Head layer) used to pulse.
 MASCOT_BLUSH_OVERLAY = "lucy_blush_overlay.png"
 
-# Hair overlays for the sway animation.
+# Hair overlays for the sway animation (clipped to top-of-head, ponytail stays static).
 MASCOT_HAIR_OVERLAYS = (
-    ("lucy_hair_overlay.png", 1.2, 7.0),        # back hair : slower, wider sway
-    ("lucy_front_hair_overlay.png", 0.9, 5.5),  # front hair : slightly faster, subtler
+    ("lucy_hair_overlay.png", 1.5, 7.0),        # back hair : wider slower sway
+    ("lucy_front_hair_overlay.png", 1.2, 5.5),  # front hair : slightly faster
 )
+
+# Extra facial overlays (extracted from pose PNG diffs).
+MASCOT_SWEAT_OVERLAY = "lucy_sweat_overlay.png"
+MASCOT_MOUTH_OPEN_OVERLAY = "lucy_mouth_open_overlay.png"
 
 # Lucy PNG canvas is 5000x2750 with the character occupying bbox (1542, 62, 3608, 2697).
 # We place her so she appears centered-horizontal, waist cut by front counter.
@@ -82,14 +86,38 @@ MASCOT_W, MASCOT_H = 1520, 836
 HAIR_PIVOT_X = int(MASCOT_X + 2521 * MASCOT_W / 5000)
 HAIR_PIVOT_Y = int(MASCOT_Y + 220 * MASCOT_H / 2750)
 
+# Bracelet positions (raw x/y in Lucy canvas -> scene coords).
+BRACELET_POSITIONS = (
+    (1880, 2540),  # resting arm bracelet (on counter)
+    (2925, 1130),  # raised arm bracelet (near chin)
+)
+
+# Window centres in scene coords for sun rays (matching Aome background windows).
+WINDOW_CENTERS = (340, 1580)
+
+# Poses that get a subtle friendly mouth pulse (open smile brief).
+POSES_WITH_SMILE_PULSE = frozenset({"idle"})
+
 # SMIL animation values.
 BLINK_ANIM = (
     '<animate attributeName="opacity" '
-    'values="0;0;0;0;0;0;0;0;0;1;0" dur="5s" repeatCount="indefinite"/>'
+    'values="0;0;0;0;0;0;0;0;0.3;0.7;1;0.7;0.3;0" dur="5s" repeatCount="indefinite"/>'
 )
 BLUSH_PULSE_ANIM = (
     '<animate attributeName="opacity" '
     'values="0.2;1;0.2" dur="3.5s" repeatCount="indefinite"/>'
+)
+SMILE_PULSE_ANIM = (
+    '<animate attributeName="opacity" '
+    'values="0;0;0;0.5;0.9;0.5;0;0" dur="6s" repeatCount="indefinite"/>'
+)
+SWEAT_DRIP_TRANSLATE = (
+    '<animateTransform attributeName="transform" type="translate" '
+    'values="0,0;0,40;0,80" dur="3s" repeatCount="indefinite"/>'
+)
+SWEAT_DRIP_OPACITY = (
+    '<animate attributeName="opacity" '
+    'values="1;1;0" dur="3s" repeatCount="indefinite"/>'
 )
 
 
@@ -323,6 +351,68 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
             f'{BLUSH_PULSE_ANIM}</image>'
         )
 
+    # Subtle mouth smile pulse (only idle pose) : she briefly opens a warm smile.
+    smile_img = ""
+    if pose in POSES_WITH_SMILE_PULSE:
+        smile_uri = load_arm_overlay_png(MASCOT_MOUTH_OPEN_OVERLAY)
+        if smile_uri:
+            smile_img = (
+                f'<image href="{smile_uri}" x="{MASCOT_X}" y="{MASCOT_Y}" '
+                f'width="{MASCOT_W}" height="{MASCOT_H}" opacity="0">'
+                f'{SMILE_PULSE_ANIM}</image>'
+            )
+
+    # Sweat drop dripping (only embarrassed pose) : slides down while fading out.
+    sweat_img = ""
+    if pose == "embarrassed":
+        sweat_uri = load_arm_overlay_png(MASCOT_SWEAT_OVERLAY)
+        if sweat_uri:
+            sweat_img = (
+                f'<image href="{sweat_uri}" x="{MASCOT_X}" y="{MASCOT_Y}" '
+                f'width="{MASCOT_W}" height="{MASCOT_H}">'
+                f'{SWEAT_DRIP_TRANSLATE}{SWEAT_DRIP_OPACITY}</image>'
+            )
+
+    # Gold bracelet glint : radial pulse at each wrist for a subtle sparkle.
+    bracelet_glints = []
+    for raw_x, raw_y in BRACELET_POSITIONS:
+        cx = int(MASCOT_X + raw_x * MASCOT_W / 5000)
+        cy = int(MASCOT_Y + raw_y * MASCOT_H / 2750)
+        r = int(30 * MASCOT_W / 5000)
+        bracelet_glints.append(
+            f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="#ffe680" opacity="0">'
+            f'<animate attributeName="opacity" values="0;0.6;0" dur="2.5s" repeatCount="indefinite"/>'
+            f'<animate attributeName="r" values="{r};{r*2};{r}" dur="2.5s" repeatCount="indefinite"/>'
+            f'</circle>'
+        )
+    bracelet_glow = f'<g filter="url(#glow)">{"".join(bracelet_glints)}</g>'
+
+    # Sun rays from windows : subtle warm gradient rays visible only during day/dawn/dusk.
+    sun_rays = ""
+    if lighting["label"] in ("dawn", "day", "dusk"):
+        ray_amp = 0.25 if lighting["label"] == "day" else 0.15
+        ray_parts = []
+        for wx in WINDOW_CENTERS:
+            ray_parts.append(
+                f'<polygon points="{wx-40},200 {wx+40},200 {wx+220},900 {wx-220},900" '
+                f'fill="url(#sunGrad)" opacity="{ray_amp * 0.6}">'
+                f'<animate attributeName="opacity" values="{ray_amp * 0.3};{ray_amp};{ray_amp * 0.3}" '
+                f'dur="8s" repeatCount="indefinite"/></polygon>'
+            )
+        sun_rays = "".join(ray_parts)
+
+    # SVG defs (gradients + filters used by sun rays and bracelet glow).
+    svg_defs = f'''<defs>
+  <linearGradient id="sunGrad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#fff4c8" stop-opacity="0.9"/>
+    <stop offset="100%" stop-color="#fff4c8" stop-opacity="0"/>
+  </linearGradient>
+  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="6" result="blur"/>
+    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+</defs>'''
+
     # Zzz drifting up for sleep mode (neutral pose = closed eyes calm).
     zzz_group = ""
     if pose == "neutral":
@@ -352,13 +442,18 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
 
     return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {SCENE_WIDTH} {SCENE_HEIGHT}" font-family="'Segoe UI', Verdana, sans-serif">
   <title>Guilde des Aventuriers de LeDeutsch - {lighting['label']} - {pose}</title>
+  {svg_defs}
   <image href="{bg_uri}" x="0" y="0" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}"/>
+  {sun_rays}
   {mascot_img}
   {hair_img}
   {blink_img}
+  {smile_img}
   {blush_img}
+  {sweat_img}
   {fg_img}
   {arm_img}
+  {bracelet_glow}
   {zzz_group}
   {lighting_rect}
   {bubble}
