@@ -64,6 +64,9 @@ MASCOT_ARM_OVERLAYS = (
 MASCOT_CLOSED_EYES_OVERLAY = "lucy_closed_eyes_overlay.png"
 POSES_WITH_OPEN_EYES = frozenset({"idle", "laugh", "sad", "embarrassed"})
 
+# Blush overlay (natural blush cropped from VARO's Head layer) used to pulse.
+MASCOT_BLUSH_OVERLAY = "lucy_blush_overlay.png"
+
 # Hair overlays for the sway animation.
 MASCOT_HAIR_OVERLAYS = (
     ("lucy_hair_overlay.png", 0.4, 7.0),        # back hair : slower, wider sway
@@ -79,12 +82,6 @@ MASCOT_W, MASCOT_H = 1520, 836
 HAIR_PIVOT_X = int(MASCOT_X + 2521 * MASCOT_W / 5000)
 HAIR_PIVOT_Y = int(MASCOT_Y + 220 * MASCOT_H / 2750)
 
-# Cheek positions for blush pulse (raw x=2290/2630, y=850)
-BLUSH_LEFT_X = int(MASCOT_X + 2320 * MASCOT_W / 5000)
-BLUSH_RIGHT_X = int(MASCOT_X + 2620 * MASCOT_W / 5000)
-BLUSH_Y = int(MASCOT_Y + 830 * MASCOT_H / 2750)
-BLUSH_RADIUS = int(75 * MASCOT_W / 5000)
-
 # SMIL animation values.
 BLINK_ANIM = (
     '<animate attributeName="opacity" '
@@ -92,7 +89,7 @@ BLINK_ANIM = (
 )
 BLUSH_PULSE_ANIM = (
     '<animate attributeName="opacity" '
-    'values="0.15;0.45;0.15" dur="3.5s" repeatCount="indefinite"/>'
+    'values="0;0.6;0" dur="4s" repeatCount="indefinite"/>'
 )
 
 
@@ -315,15 +312,16 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
                 f'{BLINK_ANIM}</image>'
             )
 
-    # Pulsing blush on the cheeks (subtle emotion signal, all poses).
-    blush_group = (
-        f'<g fill="#ff8b8b">'
-        f'<circle cx="{BLUSH_LEFT_X}" cy="{BLUSH_Y}" r="{BLUSH_RADIUS}" opacity="0.15">'
-        f'{BLUSH_PULSE_ANIM}</circle>'
-        f'<circle cx="{BLUSH_RIGHT_X}" cy="{BLUSH_Y}" r="{BLUSH_RADIUS}" opacity="0.15">'
-        f'{BLUSH_PULSE_ANIM}</circle>'
-        f'</g>'
-    )
+    # Pulsing blush using the natural blush cropped from VARO's Head layer.
+    # The overlay adds MORE saturation on top of Lucy's baked-in blush.
+    blush_img = ""
+    blush_uri = load_arm_overlay_png(MASCOT_BLUSH_OVERLAY)
+    if blush_uri:
+        blush_img = (
+            f'<image href="{blush_uri}" x="{MASCOT_X}" y="{MASCOT_Y}" '
+            f'width="{MASCOT_W}" height="{MASCOT_H}" opacity="0">'
+            f'{BLUSH_PULSE_ANIM}</image>'
+        )
 
     # Zzz drifting up for sleep mode (neutral pose = closed eyes calm).
     zzz_group = ""
@@ -358,7 +356,7 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
   {mascot_img}
   {hair_img}
   {blink_img}
-  {blush_group}
+  {blush_img}
   {fg_img}
   {arm_img}
   {zzz_group}
