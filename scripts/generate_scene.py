@@ -53,9 +53,12 @@ FG_LAYERS = (
     "08_front_counter.png",
 )
 
-# Arm overlay extracted from Lucy PSD (layer "R hand 2"), rendered on
-# top of the front counter so the hand looks like it's resting on it.
-MASCOT_ARM_OVERLAY = MASCOT_DIR / "lucy_arm_overlay.png"
+# Arm overlays extracted from Lucy PSD, rendered on top of the front counter
+# so both arms (resting hand + raised hand at chin) stay visible over it.
+MASCOT_ARM_OVERLAYS = (
+    "lucy_arm_overlay.png",         # R hand 2 : the arm resting on counter
+    "lucy_arm_raised_overlay.png",  # Right hand : the raised arm to chin
+)
 
 # Lucy PNG canvas is 5000x2750 with the character occupying bbox (1542, 62, 3608, 2697).
 # We place her so she appears centered-horizontal, waist cut by front counter.
@@ -207,12 +210,13 @@ def load_mascot_png(pose: str) -> str:
     return f"data:image/png;base64,{b64}"
 
 
-@lru_cache(maxsize=1)
-def load_arm_overlay_png() -> str:
-    """Load Lucy's resting arm overlay (extracted from PSD 'R hand 2' layer)."""
-    if not MASCOT_ARM_OVERLAY.exists():
+@lru_cache(maxsize=len(MASCOT_ARM_OVERLAYS))
+def load_arm_overlay_png(filename: str) -> str:
+    """Load a Lucy arm overlay (extracted from PSD) and return as base64 data URI."""
+    path = MASCOT_DIR / filename
+    if not path.exists():
         return ""
-    img = Image.open(MASCOT_ARM_OVERLAY).convert("RGBA")
+    img = Image.open(path).convert("RGBA")
     target_width = min(3040, img.width)
     if img.width > target_width:
         target_height = int(img.height * target_width / img.width)
@@ -240,14 +244,15 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
             f'width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}"/>'
         )
 
-    arm_img = ""
-    arm_uri = load_arm_overlay_png()
-    if arm_uri:
-        # Same positioning as mascot since overlay is at same PSD canvas size
-        arm_img = (
-            f'<image href="{arm_uri}" x="{MASCOT_X}" y="{MASCOT_Y}" '
-            f'width="{MASCOT_W}" height="{MASCOT_H}"/>'
-        )
+    arm_imgs = []
+    for overlay_name in MASCOT_ARM_OVERLAYS:
+        arm_uri = load_arm_overlay_png(overlay_name)
+        if arm_uri:
+            arm_imgs.append(
+                f'<image href="{arm_uri}" x="{MASCOT_X}" y="{MASCOT_Y}" '
+                f'width="{MASCOT_W}" height="{MASCOT_H}"/>'
+            )
+    arm_img = "\n  ".join(arm_imgs)
 
     lighting_rect = (
         f'<rect x="0" y="0" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}" '
