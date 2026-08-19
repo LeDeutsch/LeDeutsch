@@ -69,8 +69,8 @@ MASCOT_BLUSH_OVERLAY = "lucy_blush_overlay.png"
 
 # Hair overlays for the sway animation.
 MASCOT_HAIR_OVERLAYS = (
-    ("lucy_hair_overlay.png", 0.4, 7.0),        # back hair : slower, wider sway
-    ("lucy_front_hair_overlay.png", 0.3, 5.5),  # front hair : slightly faster, subtler
+    ("lucy_hair_overlay.png", 1.2, 7.0),        # back hair : slower, wider sway
+    ("lucy_front_hair_overlay.png", 0.9, 5.5),  # front hair : slightly faster, subtler
 )
 
 # Lucy PNG canvas is 5000x2750 with the character occupying bbox (1542, 62, 3608, 2697).
@@ -89,7 +89,7 @@ BLINK_ANIM = (
 )
 BLUSH_PULSE_ANIM = (
     '<animate attributeName="opacity" '
-    'values="0;0.6;0" dur="4s" repeatCount="indefinite"/>'
+    'values="0.2;1;0.2" dur="3.5s" repeatCount="indefinite"/>'
 )
 
 
