@@ -87,10 +87,17 @@ HAIR_PIVOT_X = int(MASCOT_X + 2521 * MASCOT_W / 5000)
 HAIR_PIVOT_Y = int(MASCOT_Y + 220 * MASCOT_H / 2750)
 
 # Bracelet positions (raw x/y in Lucy canvas -> scene coords).
+# Detected via gold-cluster centers within each arm layer.
 BRACELET_POSITIONS = (
-    (2200, 2450),  # resting arm bracelet (on counter, at wrist)
-    (2670, 1200),  # raised arm bracelet (below chin mitten)
+    (2486, 2597),  # resting arm bracelet (on counter wrist)
+    (1987, 1500),  # raised arm bracelet (wrist below mitten)
 )
+
+# Right lock (ponytail strand) overlay animated alone.
+MASCOT_RIGHT_LOCK_OVERLAY = "lucy_hair_right_lock.png"
+# Pivot at top-back of head where ponytail is tied (raw canvas coords).
+RIGHT_LOCK_PIVOT_X = int(MASCOT_X + 2900 * MASCOT_W / 5000)
+RIGHT_LOCK_PIVOT_Y = int(MASCOT_Y + 300 * MASCOT_H / 2750)
 
 # Window centres in scene coords for sun rays (matching Aome background windows).
 WINDOW_CENTERS = (340, 1580)
@@ -110,9 +117,9 @@ BLUSH_PULSE_ANIM = (
     'values="0.2;1;0.2" dur="3.5s" repeatCount="indefinite"/>'
 )
 SMILE_PULSE_ANIM = (
-    # Same fluid-fast principle : quick fade edges, held open smile briefly.
+    # Fluid fast edges, but hold the open smile ~1s (much longer than before).
     '<animate attributeName="opacity" values="0;0;1;1;0" '
-    'keyTimes="0;0.88;0.92;0.96;1" dur="9s" repeatCount="indefinite"/>'
+    'keyTimes="0;0.75;0.78;0.88;0.92" dur="10s" repeatCount="indefinite"/>'
 )
 SWEAT_DRIP_TRANSLATE = (
     '<animateTransform attributeName="transform" type="translate" '
@@ -314,6 +321,25 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
             )
     hair_img = "\n  ".join(hair_imgs)
 
+    # Right-side lock (ponytail strand) animated on its own with a small rotation
+    # around a pivot near where the ponytail is tied. Amplitude kept subtle since
+    # the strand is long and rotation arcs widen at its tip.
+    right_lock_img = ""
+    right_lock_uri = load_arm_overlay_png(MASCOT_RIGHT_LOCK_OVERLAY)
+    if right_lock_uri:
+        amp = 0.8
+        sway = (
+            f'<animateTransform attributeName="transform" type="rotate" '
+            f'values="-{amp} {RIGHT_LOCK_PIVOT_X} {RIGHT_LOCK_PIVOT_Y};'
+            f'{amp} {RIGHT_LOCK_PIVOT_X} {RIGHT_LOCK_PIVOT_Y};'
+            f'-{amp} {RIGHT_LOCK_PIVOT_X} {RIGHT_LOCK_PIVOT_Y}" '
+            f'dur="6s" repeatCount="indefinite"/>'
+        )
+        right_lock_img = (
+            f'<image href="{right_lock_uri}" x="{MASCOT_X}" y="{MASCOT_Y}" '
+            f'width="{MASCOT_W}" height="{MASCOT_H}">{sway}</image>'
+        )
+
     fg_img = ""
     if FG_LAYERS:
         fg_uri = composite_layers(FG_LAYERS)
@@ -434,6 +460,7 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
   <image href="{bg_uri}" x="0" y="0" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}"/>
   {sun_rays}
   {mascot_img}
+  {right_lock_img}
   {hair_img}
   {blink_img}
   {smile_img}
