@@ -45,11 +45,17 @@ BG_LAYERS = (
     "03_lamps_flag.png",
     "06_counter_frame.png",
     "07_front_chair.png",
+)
+
+# FrontCounter renders BETWEEN Lucy body and Lucy arm overlay :
+# body behind counter (hides her waist), arm on top of counter (resting).
+FG_LAYERS = (
     "08_front_counter.png",
 )
 
-# Nothing in FG anymore: mascot renders on top of everything (arms on counter).
-FG_LAYERS: tuple[str, ...] = ()
+# Arm overlay extracted from Lucy PSD (layer "R hand 2"), rendered on
+# top of the front counter so the hand looks like it's resting on it.
+MASCOT_ARM_OVERLAY = MASCOT_DIR / "lucy_arm_overlay.png"
 
 # Lucy PNG canvas is 5000x2750 with the character occupying bbox (1542, 62, 3608, 2697).
 # We place her so she appears centered-horizontal, waist cut by front counter.
@@ -201,6 +207,22 @@ def load_mascot_png(pose: str) -> str:
     return f"data:image/png;base64,{b64}"
 
 
+@lru_cache(maxsize=1)
+def load_arm_overlay_png() -> str:
+    """Load Lucy's resting arm overlay (extracted from PSD 'R hand 2' layer)."""
+    if not MASCOT_ARM_OVERLAY.exists():
+        return ""
+    img = Image.open(MASCOT_ARM_OVERLAY).convert("RGBA")
+    target_width = min(3040, img.width)
+    if img.width > target_width:
+        target_height = int(img.height * target_width / img.width)
+        img = img.resize((target_width, target_height), Image.LANCZOS)
+    buf = BytesIO()
+    img.save(buf, format="PNG", optimize=True)
+    b64 = base64.b64encode(buf.getvalue()).decode("ascii")
+    return f"data:image/png;base64,{b64}"
+
+
 def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None = None) -> str:
     bg_uri = composite_layers(BG_LAYERS)
     mascot_uri = load_mascot_png(pose)
@@ -218,6 +240,15 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
             f'width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}"/>'
         )
 
+    arm_img = ""
+    arm_uri = load_arm_overlay_png()
+    if arm_uri:
+        # Same positioning as mascot since overlay is at same PSD canvas size
+        arm_img = (
+            f'<image href="{arm_uri}" x="{MASCOT_X}" y="{MASCOT_Y}" '
+            f'width="{MASCOT_W}" height="{MASCOT_H}"/>'
+        )
+
     lighting_rect = (
         f'<rect x="0" y="0" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}" '
         f'fill="{lighting["color"]}" opacity="{lighting["opacity"]}"/>'
@@ -230,6 +261,7 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
   <image href="{bg_uri}" x="0" y="0" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}"/>
   {mascot_img}
   {fg_img}
+  {arm_img}
   {lighting_rect}
   {bubble}
 </svg>
