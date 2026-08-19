@@ -60,10 +60,24 @@ MASCOT_ARM_OVERLAYS = (
     "lucy_arm_raised_overlay.png",  # Right hand : the raised arm to chin
 )
 
+# Closed eyes overlay used for the blink animation (only on open-eye poses).
+MASCOT_CLOSED_EYES_OVERLAY = "lucy_closed_eyes_overlay.png"
+POSES_WITH_OPEN_EYES = frozenset({"idle", "laugh", "sad", "embarrassed"})
+
 # Lucy PNG canvas is 5000x2750 with the character occupying bbox (1542, 62, 3608, 2697).
 # We place her so she appears centered-horizontal, waist cut by front counter.
 MASCOT_X, MASCOT_Y = 177, 230
 MASCOT_W, MASCOT_H = 1520, 836
+
+# SMIL animation values (breathing loop + blink cycle) shared by all mascot images.
+BREATHING_ANIM = (
+    '<animateTransform attributeName="transform" type="translate" '
+    'values="0,0;0,-3;0,0" dur="4s" repeatCount="indefinite" additive="sum"/>'
+)
+BLINK_ANIM = (
+    '<animate attributeName="opacity" '
+    'values="0;0;0;0;0;0;0;0;0;1;0" dur="5s" repeatCount="indefinite"/>'
+)
 
 
 def fetch_recent_activity(user: str) -> tuple[float | None, int, str]:
@@ -210,7 +224,7 @@ def load_mascot_png(pose: str) -> str:
     return f"data:image/png;base64,{b64}"
 
 
-@lru_cache(maxsize=len(MASCOT_ARM_OVERLAYS))
+@lru_cache(maxsize=len(MASCOT_ARM_OVERLAYS) + 1)
 def load_arm_overlay_png(filename: str) -> str:
     """Load a Lucy arm overlay (extracted from PSD) and return as base64 data URI."""
     path = MASCOT_DIR / filename
@@ -231,9 +245,10 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
     bg_uri = composite_layers(BG_LAYERS)
     mascot_uri = load_mascot_png(pose)
 
+    # Breathing animation applied identically to body + arms so they stay in sync.
     mascot_img = (
         f'<image href="{mascot_uri}" x="{MASCOT_X}" y="{MASCOT_Y}" '
-        f'width="{MASCOT_W}" height="{MASCOT_H}"/>'
+        f'width="{MASCOT_W}" height="{MASCOT_H}">{BREATHING_ANIM}</image>'
     )
 
     fg_img = ""
@@ -250,9 +265,20 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
         if arm_uri:
             arm_imgs.append(
                 f'<image href="{arm_uri}" x="{MASCOT_X}" y="{MASCOT_Y}" '
-                f'width="{MASCOT_W}" height="{MASCOT_H}"/>'
+                f'width="{MASCOT_W}" height="{MASCOT_H}">{BREATHING_ANIM}</image>'
             )
     arm_img = "\n  ".join(arm_imgs)
+
+    # Blink cycle only applies when the base pose has open eyes.
+    blink_img = ""
+    if pose in POSES_WITH_OPEN_EYES:
+        blink_uri = load_arm_overlay_png(MASCOT_CLOSED_EYES_OVERLAY)
+        if blink_uri:
+            blink_img = (
+                f'<image href="{blink_uri}" x="{MASCOT_X}" y="{MASCOT_Y}" '
+                f'width="{MASCOT_W}" height="{MASCOT_H}" opacity="0">'
+                f'{BREATHING_ANIM}{BLINK_ANIM}</image>'
+            )
 
     lighting_rect = (
         f'<rect x="0" y="0" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}" '
@@ -265,6 +291,7 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
   <title>Guilde des Aventuriers de LeDeutsch - {lighting['label']} - {pose}</title>
   <image href="{bg_uri}" x="0" y="0" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}"/>
   {mascot_img}
+  {blink_img}
   {fg_img}
   {arm_img}
   {lighting_rect}
