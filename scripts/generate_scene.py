@@ -373,19 +373,18 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
                 f'{SWEAT_DRIP_TRANSLATE}{SWEAT_DRIP_OPACITY}</image>'
             )
 
-    # Gold bracelet glint : radial pulse at each wrist for a subtle sparkle.
+    # Gold bracelet glint : radial gradient sparkle (soft glow, no filter needed).
     bracelet_glints = []
     for raw_x, raw_y in BRACELET_POSITIONS:
         cx = int(MASCOT_X + raw_x * MASCOT_W / 5000)
         cy = int(MASCOT_Y + raw_y * MASCOT_H / 2750)
-        r = int(30 * MASCOT_W / 5000)
+        r = int(45 * MASCOT_W / 5000)
         bracelet_glints.append(
-            f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="#ffe680" opacity="0">'
-            f'<animate attributeName="opacity" values="0;0.6;0" dur="2.5s" repeatCount="indefinite"/>'
-            f'<animate attributeName="r" values="{r};{r*2};{r}" dur="2.5s" repeatCount="indefinite"/>'
+            f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="url(#braceletGlint)" opacity="0">'
+            f'<animate attributeName="opacity" values="0;0.7;0" dur="3s" repeatCount="indefinite"/>'
             f'</circle>'
         )
-    bracelet_glow = f'<g filter="url(#glow)">{"".join(bracelet_glints)}</g>'
+    bracelet_glow = "".join(bracelet_glints)
 
     # Sun rays from windows : subtle warm gradient rays visible only during day/dawn/dusk.
     sun_rays = ""
@@ -401,16 +400,17 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
             )
         sun_rays = "".join(ray_parts)
 
-    # SVG defs (gradients + filters used by sun rays and bracelet glow).
+    # SVG defs (gradients used by sun rays and bracelet glow).
     svg_defs = f'''<defs>
   <linearGradient id="sunGrad" x1="0" y1="0" x2="0" y2="1">
     <stop offset="0%" stop-color="#fff4c8" stop-opacity="0.9"/>
     <stop offset="100%" stop-color="#fff4c8" stop-opacity="0"/>
   </linearGradient>
-  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-    <feGaussianBlur stdDeviation="6" result="blur"/>
-    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-  </filter>
+  <radialGradient id="braceletGlint" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#fff8dc" stop-opacity="1"/>
+    <stop offset="40%" stop-color="#ffe680" stop-opacity="0.6"/>
+    <stop offset="100%" stop-color="#ffe680" stop-opacity="0"/>
+  </radialGradient>
 </defs>'''
 
     # Zzz drifting up for sleep mode (neutral pose = closed eyes calm).
