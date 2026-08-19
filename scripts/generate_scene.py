@@ -45,11 +45,11 @@ BG_LAYERS = (
     "03_lamps_flag.png",
     "06_counter_frame.png",
     "07_front_chair.png",
-)
-
-FG_LAYERS = (
     "08_front_counter.png",
 )
+
+# Nothing in FG anymore: mascot renders on top of everything (arms on counter).
+FG_LAYERS: tuple[str, ...] = ()
 
 # Lucy PNG canvas is 5000x2750 with the character occupying bbox (1542, 62, 3608, 2697).
 # We place her so she appears centered-horizontal, waist cut by front counter.
@@ -203,13 +203,20 @@ def load_mascot_png(pose: str) -> str:
 
 def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None = None) -> str:
     bg_uri = composite_layers(BG_LAYERS)
-    fg_uri = composite_layers(FG_LAYERS)
     mascot_uri = load_mascot_png(pose)
 
     mascot_img = (
         f'<image href="{mascot_uri}" x="{MASCOT_X}" y="{MASCOT_Y}" '
         f'width="{MASCOT_W}" height="{MASCOT_H}"/>'
     )
+
+    fg_img = ""
+    if FG_LAYERS:
+        fg_uri = composite_layers(FG_LAYERS)
+        fg_img = (
+            f'<image href="{fg_uri}" x="0" y="0" '
+            f'width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}"/>'
+        )
 
     lighting_rect = (
         f'<rect x="0" y="0" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}" '
@@ -222,7 +229,7 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
   <title>Guilde des Aventuriers de LeDeutsch - {lighting['label']} - {pose}</title>
   <image href="{bg_uri}" x="0" y="0" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}"/>
   {mascot_img}
-  <image href="{fg_uri}" x="0" y="0" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}"/>
+  {fg_img}
   {lighting_rect}
   {bubble}
 </svg>
