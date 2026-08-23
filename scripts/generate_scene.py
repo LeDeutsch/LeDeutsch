@@ -69,9 +69,12 @@ MASCOT_BLUSH_OVERLAY = "lucy_blush_overlay.png"
 
 # Hair overlays for the sway animation (clipped to top-of-head, ponytail stays static).
 MASCOT_HAIR_OVERLAYS = (
-    ("lucy_hair_overlay.png", 1.5, 7.0),        # back hair : wider slower sway
-    ("lucy_front_hair_overlay.png", 1.2, 5.5),  # front hair : slightly faster
+    ("lucy_hair_overlay.png", 1.2, 7.0),        # back hair (top only) : subtle slow sway
+    ("lucy_front_hair_overlay.png", 1.5, 5.5),  # front hair full : subtle swing over static base (no holes)
 )
+
+# Right elf ear (viewer POV) — occasional twitch. Pivot values defined after MASCOT_X/Y/W/H.
+MASCOT_EAR_OVERLAY = "lucy_ear_right_overlay.png"
 
 # Extra facial overlays (extracted from pose PNG diffs).
 MASCOT_SWEAT_OVERLAY = "lucy_sweat_overlay.png"
@@ -86,6 +89,10 @@ MASCOT_W, MASCOT_H = 1520, 836
 HAIR_PIVOT_X = int(MASCOT_X + 2521 * MASCOT_W / 5000)
 HAIR_PIVOT_Y = int(MASCOT_Y + 220 * MASCOT_H / 2750)
 
+# Right elf ear twitch pivot (base of ear, raw 2820, 800).
+EAR_PIVOT_X = int(MASCOT_X + 2820 * MASCOT_W / 5000)
+EAR_PIVOT_Y = int(MASCOT_Y + 800 * MASCOT_H / 2750)
+
 # Bracelet positions (raw x/y in Lucy canvas -> scene coords).
 # Detected via gold-cluster centers within each arm layer.
 BRACELET_POSITIONS = (
@@ -93,11 +100,6 @@ BRACELET_POSITIONS = (
     (1987, 1500),  # raised arm bracelet (wrist below mitten)
 )
 
-# Right lock (ponytail strand) overlay animated alone.
-MASCOT_RIGHT_LOCK_OVERLAY = "lucy_hair_right_lock.png"
-# Pivot at top-back of head where ponytail is tied (raw canvas coords).
-RIGHT_LOCK_PIVOT_X = int(MASCOT_X + 2900 * MASCOT_W / 5000)
-RIGHT_LOCK_PIVOT_Y = int(MASCOT_Y + 300 * MASCOT_H / 2750)
 
 # Window centres in scene coords for sun rays (matching Aome background windows).
 WINDOW_CENTERS = (340, 1580)
@@ -123,11 +125,11 @@ SMILE_PULSE_ANIM = (
 )
 SWEAT_DRIP_TRANSLATE = (
     '<animateTransform attributeName="transform" type="translate" '
-    'values="0,0;0,40;0,80" dur="3s" repeatCount="indefinite"/>'
+    'values="0,0;0,15;0,30" dur="3s" repeatCount="indefinite"/>'
 )
 SWEAT_DRIP_OPACITY = (
     '<animate attributeName="opacity" '
-    'values="1;1;0" dur="3s" repeatCount="indefinite"/>'
+    'values="1;0.8;0" dur="3s" repeatCount="indefinite"/>'
 )
 
 
@@ -261,6 +263,15 @@ def load_mascot_png(pose: str) -> str:
         path = MASCOT_DIR / "lucy_idle.png"
     img = Image.open(path).convert("RGBA")
 
+    # Erase baked-in sweat drop on embarrassed pose so only the animated
+    # overlay is visible (avoid duplicated drop above + below the hair).
+    if pose == "embarrassed":
+        idle_path = MASCOT_DIR / "lucy_idle.png"
+        if idle_path.exists():
+            idle = Image.open(idle_path).convert("RGBA")
+            box = (2560, 470, 2680, 660)
+            img.paste(idle.crop(box), box)
+
     # Source Lucy PNGs are 5000x2750 (~2MB each). We only render them
     # at ~1520 pixels wide in the scene, so 2x retina = 3040 max width.
     # Downscale keeps repo lean without visible quality loss.
@@ -321,24 +332,24 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
             )
     hair_img = "\n  ".join(hair_imgs)
 
-    # Right-side lock (ponytail strand) animated on its own with a small rotation
-    # around a pivot near where the ponytail is tied. Amplitude kept subtle since
-    # the strand is long and rotation arcs widen at its tip.
-    right_lock_img = ""
-    right_lock_uri = load_arm_overlay_png(MASCOT_RIGHT_LOCK_OVERLAY)
-    if right_lock_uri:
-        amp = 0.8
-        sway = (
+    # Elf ear twitch : long still moments punctuated by a quick flick.
+    ear_img = ""
+    ear_uri = load_arm_overlay_png(MASCOT_EAR_OVERLAY)
+    if ear_uri:
+        twitch = (
             f'<animateTransform attributeName="transform" type="rotate" '
-            f'values="-{amp} {RIGHT_LOCK_PIVOT_X} {RIGHT_LOCK_PIVOT_Y};'
-            f'{amp} {RIGHT_LOCK_PIVOT_X} {RIGHT_LOCK_PIVOT_Y};'
-            f'-{amp} {RIGHT_LOCK_PIVOT_X} {RIGHT_LOCK_PIVOT_Y}" '
-            f'dur="6s" repeatCount="indefinite"/>'
+            f'values="0 {EAR_PIVOT_X} {EAR_PIVOT_Y};'
+            f'0 {EAR_PIVOT_X} {EAR_PIVOT_Y};'
+            f'7 {EAR_PIVOT_X} {EAR_PIVOT_Y};'
+            f'0 {EAR_PIVOT_X} {EAR_PIVOT_Y};'
+            f'0 {EAR_PIVOT_X} {EAR_PIVOT_Y}" '
+            f'keyTimes="0;0.85;0.87;0.89;1" dur="8s" repeatCount="indefinite"/>'
         )
-        right_lock_img = (
-            f'<image href="{right_lock_uri}" x="{MASCOT_X}" y="{MASCOT_Y}" '
-            f'width="{MASCOT_W}" height="{MASCOT_H}">{sway}</image>'
+        ear_img = (
+            f'<image href="{ear_uri}" x="{MASCOT_X}" y="{MASCOT_Y}" '
+            f'width="{MASCOT_W}" height="{MASCOT_H}">{twitch}</image>'
         )
+
 
     fg_img = ""
     if FG_LAYERS:
@@ -402,18 +413,23 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
                 f'{SWEAT_DRIP_TRANSLATE}{SWEAT_DRIP_OPACITY}</image>'
             )
 
-    # Gold bracelet glint : bigger, brighter radial sparkle for visibility.
-    bracelet_glints = []
-    for raw_x, raw_y in BRACELET_POSITIONS:
-        cx = int(MASCOT_X + raw_x * MASCOT_W / 5000)
-        cy = int(MASCOT_Y + raw_y * MASCOT_H / 2750)
-        r = int(180 * MASCOT_W / 5000)  # larger halo for visibility
-        bracelet_glints.append(
-            f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="url(#braceletGlint)" opacity="0">'
-            f'<animate attributeName="opacity" values="0;0.9;0" dur="3s" repeatCount="indefinite"/>'
-            f'</circle>'
-        )
-    bracelet_glow = "".join(bracelet_glints)
+    # Gold bracelet glint : subtle radial sparkle that only shows when there is
+    # daylight to reflect (skipped at evening/night to feel physically consistent).
+    bracelet_glow = ""
+    if lighting["label"] in ("dawn", "day", "dusk"):
+        # Peak brighter at noon, dimmer at dawn/dusk.
+        peak = {"dawn": 0.35, "day": 0.55, "dusk": 0.4}[lighting["label"]]
+        glints = []
+        for raw_x, raw_y in BRACELET_POSITIONS:
+            cx = int(MASCOT_X + raw_x * MASCOT_W / 5000)
+            cy = int(MASCOT_Y + raw_y * MASCOT_H / 2750)
+            r = int(140 * MASCOT_W / 5000)
+            glints.append(
+                f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="url(#braceletGlint)" opacity="0">'
+                f'<animate attributeName="opacity" values="0;{peak};0" dur="3.5s" repeatCount="indefinite"/>'
+                f'</circle>'
+            )
+        bracelet_glow = "".join(glints)
 
     # Sun rays removed by user request.
     sun_rays = ""
@@ -460,7 +476,7 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
   <image href="{bg_uri}" x="0" y="0" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}"/>
   {sun_rays}
   {mascot_img}
-  {right_lock_img}
+  {ear_img}
   {hair_img}
   {blink_img}
   {smile_img}
@@ -498,7 +514,10 @@ def update_readme_footer(pose: str, lighting_label: str, commits_24h: int) -> No
 
 
 def main() -> None:
-    hour = datetime.now().hour
+    # Allow HOUR env var override for local preview (e.g. HOUR=3 python scripts/...).
+    hour_env = os.environ.get("HOUR")
+    hour = int(hour_env) if hour_env and hour_env.isdigit() else datetime.now().hour
+
     hours_since, commits_24h, msg = fetch_recent_activity(GITHUB_USER)
     lighting = pick_lighting(hour)
 
@@ -513,6 +532,15 @@ def main() -> None:
         variant_svg = build_scene(pose, lighting, commits_24h, dialogue=None)
         variant_path = OUTPUT.parent / f"scene_{pose}.svg"
         variant_path.write_text(variant_svg, encoding="utf-8")
+
+    # Local preview convenience : if PREVIEW env var is set, also render 5 lighting
+    # variants of the main scene (dawn/day/dusk/evening/night) so preview.html can
+    # switch between them without regenerating each time.
+    if os.environ.get("PREVIEW"):
+        for h in (7, 12, 18, 21, 3):
+            lg = pick_lighting(h)
+            var = build_scene(dynamic_pose, lg, commits_24h, dynamic_dialogue)
+            (OUTPUT.parent / f"scene_light_{lg['label']}.svg").write_text(var, encoding="utf-8")
 
     update_readme_footer(dynamic_pose, lighting["label"], commits_24h)
 

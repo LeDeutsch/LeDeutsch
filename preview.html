@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Guild Hall Preview (local)</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: -apple-system, "Segoe UI", sans-serif;
+      padding: 24px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    h1 { margin-bottom: 8px; font-size: 22px; }
+    .subtitle {
+      color: #8b949e;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+    .controls {
+      background: #161b22;
+      border: 1px solid #30363d;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .controls button {
+      background: #238636;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .controls button:hover { background: #2ea043; }
+    .controls button.active { background: #1f6feb; }
+    .light-btn, .pose-btn { background: #21262d !important; color: #c9d1d9 !important; }
+    .light-btn:hover, .pose-btn:hover { background: #30363d !important; }
+    .light-btn.active, .pose-btn.active { background: #1f6feb !important; color: white !important; }
+    .controls label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .scene {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+    .scene h2 {
+      font-size: 15px;
+      color: #58a6ff;
+      margin-bottom: 12px;
+      font-family: monospace;
+    }
+    .scene img {
+      width: 100%;
+      max-width: 1200px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border-radius: 4px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 16px;
+    }
+    .grid .scene { margin-bottom: 0; }
+    .grid .scene img { max-width: 100%; }
+  </style>
+</head>
+<body>
+  <h1>Guild Hall Preview</h1>
+  <div class="subtitle">
+    Local preview with live SMIL animations. Regenerate with
+    <code>python scripts/generate_scene.py</code> then click "Refresh".
+  </div>
+
+  <div class="controls">
+    <button onclick="refreshAll()">Refresh scenes</button>
+    <label>
+      <input type="checkbox" id="autoRefresh"> Auto-refresh every
+      <input type="number" id="interval" value="5" min="1" max="60" style="width:50px"> s
+    </label>
+    <label>
+      <input type="checkbox" id="gridView"> Grid view (all poses side by side)
+    </label>
+  </div>
+
+  <div class="controls">
+    <span style="font-size:13px;color:#8b949e">Preview lighting :</span>
+    <button data-hour="current" class="light-btn active">Current (baked)</button>
+    <button data-hour="dawn" class="light-btn">Dawn (7h)</button>
+    <button data-hour="day" class="light-btn">Day (12h)</button>
+    <button data-hour="dusk" class="light-btn">Dusk (18h)</button>
+    <button data-hour="evening" class="light-btn">Evening (21h)</button>
+    <button data-hour="night" class="light-btn">Night (3h)</button>
+    <span id="lightingHint" style="font-size:12px;color:#8b949e;margin-left:8px"></span>
+  </div>
+
+  <div class="controls">
+    <span style="font-size:13px;color:#8b949e">Preview pose (main) :</span>
+    <button data-pose="dynamic" class="pose-btn active">Dynamic (auto)</button>
+    <button data-pose="idle" class="pose-btn">idle</button>
+    <button data-pose="laugh" class="pose-btn">laugh</button>
+    <button data-pose="happy" class="pose-btn">happy</button>
+    <button data-pose="neutral" class="pose-btn">neutral (sleep)</button>
+    <button data-pose="sad" class="pose-btn">sad</button>
+    <button data-pose="embarrassed" class="pose-btn">embarrassed</button>
+    <span id="poseHint" style="font-size:12px;color:#8b949e;margin-left:8px"></span>
+  </div>
+
+  <div id="scenes">
+    <div class="scene" data-file="output/scene.svg">
+      <h2>output/scene.svg &middot; dynamic (main)</h2>
+      <img data-src="output/scene.svg" alt="main scene">
+    </div>
+    <div class="scene" data-file="output/scene_idle.svg">
+      <h2>output/scene_idle.svg</h2>
+      <img data-src="output/scene_idle.svg" alt="idle">
+    </div>
+    <div class="scene" data-file="output/scene_laugh.svg">
+      <h2>output/scene_laugh.svg</h2>
+      <img data-src="output/scene_laugh.svg" alt="laugh">
+    </div>
+    <div class="scene" data-file="output/scene_happy.svg">
+      <h2>output/scene_happy.svg</h2>
+      <img data-src="output/scene_happy.svg" alt="happy">
+    </div>
+    <div class="scene" data-file="output/scene_neutral.svg">
+      <h2>output/scene_neutral.svg &middot; sleep</h2>
+      <img data-src="output/scene_neutral.svg" alt="neutral">
+    </div>
+    <div class="scene" data-file="output/scene_sad.svg">
+      <h2>output/scene_sad.svg</h2>
+      <img data-src="output/scene_sad.svg" alt="sad">
+    </div>
+    <div class="scene" data-file="output/scene_embarrassed.svg">
+      <h2>output/scene_embarrassed.svg</h2>
+      <img data-src="output/scene_embarrassed.svg" alt="embarrassed">
+    </div>
+  </div>
+
+  <script>
+    let currentLighting = 'current';
+    let currentPose = 'dynamic';
+
+    function sceneSrc(baseFile) {
+      // Only affects the MAIN scene at the top ; other scene tiles keep their baked file.
+      if (baseFile !== 'output/scene.svg') return baseFile;
+
+      // Pose override wins (pose variants exist only at their generation-time lighting).
+      if (currentPose !== 'dynamic') return 'output/scene_' + currentPose + '.svg';
+
+      // Otherwise the lighting toggle picks the tinted dynamic variant.
+      if (currentLighting !== 'current') return 'output/scene_light_' + currentLighting + '.svg';
+
+      return baseFile;
+    }
+
+    function refreshAll() {
+      const stamp = Date.now();
+      document.querySelectorAll('img[data-src]').forEach(img => {
+        img.src = sceneSrc(img.dataset.src) + '?t=' + stamp;
+      });
+    }
+
+    // Initial load
+    refreshAll();
+
+    // Grid toggle
+    document.getElementById('gridView').addEventListener('change', e => {
+      document.getElementById('scenes').className = e.target.checked ? 'grid' : '';
+    });
+
+    // Auto-refresh
+    let intervalId = null;
+    document.getElementById('autoRefresh').addEventListener('change', e => {
+      if (e.target.checked) {
+        const secs = parseInt(document.getElementById('interval').value, 10) || 5;
+        intervalId = setInterval(refreshAll, secs * 1000);
+      } else if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    });
+
+    // Helper to force reload the main scene bypassing file:// cache.
+    function reloadMainScene() {
+      const mainImg = document.querySelector('img[data-src="output/scene.svg"]');
+      if (!mainImg) return;
+      const newSrc = sceneSrc('output/scene.svg') + '?t=' + Date.now();
+      mainImg.src = '';
+      setTimeout(() => { mainImg.src = newSrc; }, 20);
+    }
+
+    // Lighting toggle
+    const lightBtns = document.querySelectorAll('.light-btn');
+    lightBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        lightBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentLighting = btn.dataset.hour;
+        const hint = document.getElementById('lightingHint');
+        if (currentLighting === 'current' || currentPose !== 'dynamic') {
+          hint.textContent = currentPose !== 'dynamic'
+            ? 'Lighting toggle ignored (a specific pose is picked ; pose variants use baked lighting).'
+            : '';
+        } else {
+          hint.textContent = 'Requires PREVIEW=1 python scripts/generate_scene.py for lighting variants.';
+        }
+        reloadMainScene();
+      });
+    });
+
+    // Pose toggle
+    const poseBtns = document.querySelectorAll('.pose-btn');
+    poseBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        poseBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentPose = btn.dataset.pose;
+        const hint = document.getElementById('poseHint');
+        hint.textContent = currentPose === 'dynamic'
+          ? ''
+          : 'Loaded output/scene_' + currentPose + '.svg (baked lighting from last generate)';
+        // If pose changed, re-evaluate lighting hint too.
+        document.getElementById('lightingHint').textContent = currentPose !== 'dynamic'
+          ? 'Lighting toggle ignored (a specific pose is picked).'
+          : '';
+        reloadMainScene();
+      });
+    });
+  </script>
+</body>
+</html>
