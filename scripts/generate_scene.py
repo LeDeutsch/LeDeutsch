@@ -470,7 +470,7 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
 
     bubble = build_dialogue_bubble(dialogue) if dialogue else ""
 
-    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {SCENE_WIDTH} {SCENE_HEIGHT}" font-family="'Segoe UI', Verdana, sans-serif">
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {SCENE_WIDTH} {SCENE_HEIGHT}" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}" preserveAspectRatio="xMidYMid meet" font-family="'Segoe UI', Verdana, sans-serif">
   <title>Guilde des Aventuriers de LeDeutsch - {lighting['label']} - {pose}</title>
   {svg_defs}
   <image href="{bg_uri}" x="0" y="0" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}"/>
