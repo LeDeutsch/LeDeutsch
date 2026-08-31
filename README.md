@@ -19,7 +19,7 @@
 ---
 
 <!-- SCENE-META:START -->
-<sub>Scène : **idle** · lumière : **day** · commits 24h : **0** · maj : 2026-08-31 11:29 UTC</sub>
+<sub>Scène : **idle** · lumière : **dusk** · commits 24h : **0** · maj : 2026-08-31 18:07 UTC</sub>
 <!-- SCENE-META:END -->
 
 <sub>Art commissioned from **[Aome](https://www.fiverr.com/aome_art)** (background) and **[VARO](https://www.fiverr.com/varotionist)** (character Lucy) · commercial use licensed · [CREDITS](CREDITS.md) · [LICENSE](LICENSE)</sub>
