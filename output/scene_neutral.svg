@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" preserveAspectRatio="xMidYMid meet" font-family="'Segoe UI', Verdana, sans-serif">
-  <title>Guilde des Aventuriers de LeDeutsch - evening - neutral</title>
+  <title>Guilde des Aventuriers de LeDeutsch - night - neutral</title>
   <defs>
   <radialGradient id="braceletGlint" cx="50%" cy="50%" r="50%">
     <stop offset="0%" stop-color="#fff8dc" stop-opacity="1"/>
@@ -35,6 +35,6 @@
     <animateTransform attributeName="transform" type="translate" values="0,0;0,-40" dur="3s" begin="2s" repeatCount="indefinite"/>
   </text>
 </g>
-  <rect x="0" y="0" width="1920" height="1080" fill="#5a4a8a" opacity="0.35"/>
+  <rect x="0" y="0" width="1920" height="1080" fill="#1a1a4a" opacity="0.55"/>
   
 </svg>
