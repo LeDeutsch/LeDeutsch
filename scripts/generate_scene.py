@@ -638,10 +638,19 @@ def main() -> None:
     # variants of the main scene (dawn/day/dusk/evening/night) so preview.html can
     # switch between them without regenerating each time.
     if os.environ.get("PREVIEW"):
-        for h in (7, 12, 18, 21, 3):
+        lighting_hours = (("dawn", 7), ("day", 12), ("dusk", 18), ("evening", 21), ("night", 3))
+        for _, h in lighting_hours:
             lg = pick_lighting(h)
             var = build_scene(dynamic_pose, lg, commits_24h, dynamic_dialogue)
             (OUTPUT.parent / f"scene_light_{lg['label']}.svg").write_text(var, encoding="utf-8")
+
+        # pose x lighting matrix: 6 x 5 = 30 files, gitignored, only for preview.html
+        # so users can pick any pose+lighting combo.
+        for pose in VALID_POSES:
+            for label, h in lighting_hours:
+                lg = pick_lighting(h)
+                var = build_scene(pose, lg, commits_24h, dialogue=None)
+                (OUTPUT.parent / f"scene_{pose}_{label}.svg").write_text(var, encoding="utf-8")
 
     update_readme_footer(dynamic_pose, lighting["label"], commits_24h)
 
