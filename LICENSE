@@ -43,13 +43,17 @@ VISUAL ASSETS — All Rights Reserved
 
 The following files are NOT covered by the MIT License:
 
-  - assets/scene/*.png     (guild hall background layers, by Aome)
-  - assets/mascot/**/*.png (Lucy character expressions, by VARO)
+  - assets/scene/*.png     (guild hall background layers, hanging signs,
+                             counter accessories, by Aome)
+  - assets/header/*.png    (welcome sign banner used in the README, by Aome)
+  - assets/mascot/**/*.png (Lucy character expressions and extracted overlays,
+                             by VARO)
   - output/*.svg           (composited scenes containing the above assets
                              as embedded base64 PNG data)
 
 These visual assets are the intellectual property of their respective artists
-(Aome for the background, VARO for the character) and © Dinspel Ludwig Junior.
+(Aome for the backgrounds and props, VARO for the character) and © Dinspel
+Ludwig Junior.
 Commercial use rights were granted to Dinspel Ludwig Junior by each artist
 for this specific project.
 

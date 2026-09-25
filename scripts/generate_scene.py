@@ -603,7 +603,7 @@ def update_readme_footer(pose: str, lighting_label: str, commits_24h: int) -> No
     new_block = (
         f"{marker_start}\n"
         f"<sub>Scene: **{pose}** · lighting: **{lighting_label}** · "
-        f"commits 24h: **{commits_24h}** · updated: {now}</sub>\n"
+        f"commits (past 24h): **{commits_24h}** · updated: {now}</sub>\n"
         f"{marker_end}"
     )
     if marker_start in content and marker_end in content:

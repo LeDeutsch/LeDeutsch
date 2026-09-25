@@ -21,7 +21,7 @@
 ---
 
 <!-- SCENE-META:START -->
-<sub>Scene: **neutral** · lighting: **night** · commits 24h: **0** · updated: 2026-09-25 01:49 UTC</sub>
+<sub>Scene: **neutral** · lighting: **night** · commits (past 24h): **0** · updated: 2026-09-25 02:12 UTC</sub>
 <!-- SCENE-META:END -->
 
-<sub>Art commissioned from **[Aome](https://www.fiverr.com/aome_art)** (background) and **[VARO](https://www.fiverr.com/varotionist)** (character Lucy) · commercial use licensed · [CREDITS](CREDITS.md) · [LICENSE](LICENSE)</sub>
+<sub>Art by **[Aome](https://www.fiverr.com/aome_art)** for backgrounds & props, **[VARO](https://www.fiverr.com/varotionist)** for Lucy · commercial use licensed · [CREDITS](CREDITS.md) · [LICENSE](LICENSE)</sub>
