@@ -1,6 +1,12 @@
 <div align="center">
 
-<img src="assets/header/welcome_sign.png" alt="LeDeutsch Adventurers' Guild" width="600">
+<img src="assets/header/welcome_sign.png" alt="LeDeutsch Adventurers' Guild" width="380">
+
+</div>
+
+---
+
+<div align="center">
 
 *The hostess watches you approach.*
 
