@@ -1,8 +1,4 @@
-<div align="center">
-
-<img src="assets/header/welcome_sign.png" alt="LeDeutsch Adventurers' Guild" width="380">
-
-</div>
+<p align="center"><img src="assets/header/welcome_sign.png" alt="LeDeutsch Adventurers' Guild" width="380"></p>
 
 ---
 
