@@ -1,18 +1,18 @@
 <div align="center">
 
-![L'hôtesse te salue](../output/scene_laugh.svg)
+![The hostess greets you](../output/scene_laugh.svg)
 
 ---
 
-> *« Oh ! Un aventurier ! Bienvenue à la guilde !*
-> *Prends un instant pour respirer — la salle est calme aujourd'hui. »*
+> *"Oh! An adventurer! Welcome to the guild!*
+> *Take a moment to breathe, the hall is calm today."*
 
 ---
 
-### Que réponds-tu ?
+### What do you say?
 
 |  |  |
 |:---:|:---:|
-| [**Qui es-tu ?**](greet_name.md) | [**Retour au comptoir**](../README.md) |
+| [**Who are you?**](greet_name.md) | [**Back to the counter**](../README.md) |
 
 </div>

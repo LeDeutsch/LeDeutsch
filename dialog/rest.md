@@ -1,20 +1,20 @@
 <div align="center">
 
-![L'hôtesse s'assoupit](../output/scene_neutral.svg)
+![The hostess dozes off](../output/scene_neutral.svg)
 
 ---
 
-> *L'hôtesse pose sa tête sur ses bras.*
-> *« Merci... juste cinq minutes... »*
+> *The hostess rests her head on her arms.*
+> *"Thank you... just five minutes..."*
 >
-> *Un doux Zzz s'échappe de ses lèvres.*
+> *A soft Zzz escapes her lips.*
 
 ---
 
-### Que fais-tu ?
+### What do you do?
 
 |  |  |
 |:---:|:---:|
-| [**Partir sur la pointe des pieds**](rest_bye.md) | [**La réveiller**](wake.md) |
+| [**Leave on tiptoe**](rest_bye.md) | [**Wake her up**](wake.md) |
 
 </div>

@@ -1,21 +1,21 @@
 <div align="center">
 
-![L'hôtesse te sourit fièrement](../output/scene_happy.svg)
+![The hostess smiles proudly](../output/scene_happy.svg)
 
 ---
 
-> *« Ah, tu veux mon nom ?*
-> *Je suis... eh bien, je n'ai pas encore de nom !*
-> *Ludwig n'a pas encore choisi. Reviens plus tard, peut-être qu'il aura décidé. »*
+> *"Ah, you want to know my name?*
+> *I am... well, I don't have a name yet!*
+> *Ludwig hasn't picked one. Come back later, maybe he'll have decided."*
 
-*(Note du dev : le nom de l'hôtesse sera choisi dans une prochaine session — voir [docs/ROADMAP.md](../docs/ROADMAP.md))*
+*(Dev's note: the hostess's name will be chosen in a later session, see [docs/ROADMAP.md](../docs/ROADMAP.md))*
 
 ---
 
-### Suite du dialogue
+### Continue the conversation
 
 |  |  |
 |:---:|:---:|
-| [**Enchanté(e) quand même**](greet.md) | [**Retour au comptoir**](../README.md) |
+| [**Nice to meet you anyway**](greet.md) | [**Back to the counter**](../README.md) |
 
 </div>

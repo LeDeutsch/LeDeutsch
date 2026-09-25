@@ -1,22 +1,22 @@
 <div align="center">
 
-![L'hôtesse dort paisiblement](../output/scene_neutral.svg)
+![The hostess sleeps peacefully](../output/scene_neutral.svg)
 
 ---
 
-> *Tu recules doucement, chaque pas mesuré.*
-> *La porte se referme sans un bruit derrière toi.*
+> *You back away slowly, each step measured.*
+> *The door closes without a sound behind you.*
 >
-> *Dans la salle, l'hôtesse respire calmement.*
+> *Inside, the hostess breathes calmly.*
 
-** Titre honorifique obtenu : *« Aventurier·ère Attentionné·e »***
+** Honorary title earned: *"Thoughtful Adventurer"***
 
 ---
 
-### Que fais-tu ensuite ?
+### What do you do next?
 
 |  |  |
 |:---:|:---:|
-| [**Revenir plus tard**](../README.md) | [**Voir les quêtes disponibles**](../quests/README.md) |
+| [**Come back later**](../README.md) | [**Browse the available quests**](../quests/README.md) |
 
 </div>

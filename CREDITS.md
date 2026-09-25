@@ -9,11 +9,14 @@ commissioned from and drawn by:
 
 - Gig: [*I will draw anime background for visual novel, vtuber or game illustrations*](https://www.fiverr.com/aome_art)
 - Level 2 seller, 5.0 rating (297+ reviews)
-- Delivered: July 2026
-- Deliverables: 9 layered PNG files (1920×1080, alpha-transparent) covering
-  the outside light, walls, second-floor balustrade, lanterns + guild banner,
+- Delivered: July 2026 (initial batch), September 2026 (additional props)
+- Initial deliverables (July 2026): 9 layered PNG files (1920×1080, alpha-transparent)
+  covering the outside light, walls, second-floor balustrade, lanterns + guild banner,
   quest board with parchments, background benches, wooden counter frame with
   arches and side chairs, foreground chair, and front counter strip.
+- Additional deliverables (September 2026): hanging open/closed shop signs
+  (2000×2000, alpha), counter accessory decor for the back wall and counter surface
+  (1920×1080, alpha), and a "Welcome Adventurer" banner used as the README header.
 
 Aome delivered on time, in high quality, and confirmed **commercial use rights**
 by written message. The source PSD is retained by the artist; the layered PNG

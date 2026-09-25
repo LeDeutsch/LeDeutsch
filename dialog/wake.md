@@ -1,20 +1,20 @@
 <div align="center">
 
-![L'hôtesse se réveille en sursaut](../output/scene_laugh.svg)
+![The hostess wakes with a start](../output/scene_laugh.svg)
 
 ---
 
-> *« Hein ?! Quoi ?! J'étais réveillée ! »*
+> *"Huh?! What?! I was awake!"*
 >
-> *L'hôtesse remet ses cheveux en place, un peu embarrassée.*
-> *« Bon... puisque tu es là, je suppose que tu veux quelque chose ? »*
+> *The hostess tidies her hair, a bit flustered.*
+> *"Well... since you're here, I guess you want something?"*
 
 ---
 
-### Que réponds-tu ?
+### What do you say?
 
 |  |  |
 |:---:|:---:|
-| [**Voir les quêtes disponibles**](../quests/README.md) | [**Désolé, retour au comptoir**](../README.md) |
+| [**Browse the available quests**](../quests/README.md) | [**Sorry, back to the counter**](../README.md) |
 
 </div>

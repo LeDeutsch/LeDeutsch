@@ -15,7 +15,7 @@ import os
 import sys
 import urllib.error
 import urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from functools import lru_cache
 from io import BytesIO
 from pathlib import Path
@@ -45,13 +45,23 @@ BG_LAYERS = (
     "03_lamps_flag.png",
     "06_counter_frame.png",
     "07_front_chair.png",
+    "back_counter_accessory.png",  # items on background tables, rendered above frame pillars
 )
 
 # FrontCounter renders BETWEEN Lucy body and Lucy arm overlay :
 # body behind counter (hides her waist), arm on top of counter (resting).
+# Counter accessory items (books, quill, etc.) sit on top of the counter surface.
 FG_LAYERS = (
     "08_front_counter.png",
+    "front_counter_accessory.png",
 )
+
+# Hanging sign shown in the upper-left of the scene. Open during active hours
+# (dawn/day/dusk), Closed during evening/night when Lucy sleeps.
+SCENE_SIGN_OPEN = "open_sign.png"
+SCENE_SIGN_CLOSED = "closed_sign.png"
+SIGN_X, SIGN_Y = 260, -65
+SIGN_W, SIGN_H = 340, 340
 
 # Arm overlays extracted from Lucy PSD, rendered on top of the front counter
 # so both arms (resting hand + raised hand at chin) stay visible over it.
@@ -133,6 +143,39 @@ SWEAT_DRIP_OPACITY = (
 )
 
 
+def _fetch_commits_24h_graphql(user: str, token: str) -> int | None:
+    """Count commits across all repos (public + private) via GraphQL. Returns None on failure."""
+    now = datetime.now(timezone.utc)
+    from_ts = (now - timedelta(hours=24)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    to_ts = now.strftime("%Y-%m-%dT%H:%M:%SZ")
+    query = (
+        "query { user(login: \"" + user + "\") { "
+        "contributionsCollection(from: \"" + from_ts + "\", to: \"" + to_ts + "\") { "
+        "totalCommitContributions } } }"
+    )
+    payload = json.dumps({"query": query}).encode("utf-8")
+    req = urllib.request.Request(
+        "https://api.github.com/graphql",
+        data=payload,
+        headers={
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json",
+            "Accept": "application/vnd.github+json",
+        },
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=10) as response:
+            data = json.load(response)
+        return (
+            data.get("data", {}).get("user", {})
+            .get("contributionsCollection", {})
+            .get("totalCommitContributions")
+        )
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
+        print(f"[warn] GraphQL commit count failed: {exc}", file=sys.stderr)
+        return None
+
+
 def fetch_recent_activity(user: str) -> tuple[float | None, int, str]:
     """Return (hours_since_last_push, commits_last_24h, last_commit_message)."""
     url = f"https://api.github.com/users/{user}/events/public"
@@ -146,23 +189,27 @@ def fetch_recent_activity(user: str) -> tuple[float | None, int, str]:
             events = json.load(response)
     except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
         print(f"[warn] GitHub API unreachable: {exc}", file=sys.stderr)
-        return None, 0, ""
+        events = []
 
     push_events = [e for e in events if e.get("type") == "PushEvent"]
+
+    # commits_24h: prefer GraphQL contributionsCollection (counts private repos too when
+    # the token has scope). Fallback to counting PushEvents in the public REST feed.
+    commits_24h = _fetch_commits_24h_graphql(user, token) if token else None
+    if commits_24h is None:
+        one_day_ago = datetime.now(timezone.utc).timestamp() - 86400
+        commits_24h = 0
+        for e in push_events:
+            ts = datetime.fromisoformat(e["created_at"].replace("Z", "+00:00")).timestamp()
+            if ts > one_day_ago:
+                commits_24h += len(e["payload"].get("commits", []))
+
     if not push_events:
-        return None, 0, ""
+        return None, commits_24h, ""
 
     latest = push_events[0]
     latest_ts = datetime.fromisoformat(latest["created_at"].replace("Z", "+00:00"))
     hours_since = (datetime.now(timezone.utc) - latest_ts).total_seconds() / 3600
-
-    one_day_ago = datetime.now(timezone.utc).timestamp() - 86400
-    commits_24h = 0
-    for e in push_events:
-        ts = datetime.fromisoformat(e["created_at"].replace("Z", "+00:00")).timestamp()
-        if ts > one_day_ago:
-            commits_24h += len(e["payload"].get("commits", []))
-
     commits = latest["payload"].get("commits") or []
     last_msg = commits[-1]["message"] if commits else ""
     return hours_since, commits_24h, last_msg
@@ -198,12 +245,12 @@ def pick_lighting(hour: int) -> dict:
 
 def pick_dialogue(pose: str, msg: str) -> str:
     snippets = {
-        "idle": "Bienvenue, aventurier·ère. Quelle quête cherches-tu ?",
-        "neutral": "Chut... reviens plus tard, la guilde est calme.",
-        "sad": "Personne n'est passé depuis longtemps... reste un peu ?",
-        "happy": "Une créature de bug vient d'être terrassée !",
-        "laugh": "Ohé ! Une nouvelle fonctionnalité vient d'éclore.",
-        "embarrassed": "Ah... ce n'était pas mon meilleur choix.",
+        "idle": "Welcome, adventurer. What quest are you seeking?",
+        "neutral": "Shhh... come back later, the guild is quiet.",
+        "sad": "No one has come by in a while... stay a bit?",
+        "happy": "A bug creature has just been slain!",
+        "laugh": "Ahoy! A brand new feature just hatched.",
+        "embarrassed": "Ah... that wasn't my finest call.",
     }
     text = snippets.get(pose, snippets["idle"])
     if pose in ("happy", "laugh", "embarrassed") and msg:
@@ -228,12 +275,57 @@ def read_asset(rel_path: str) -> str:
     return path.read_text(encoding="utf-8")
 
 
+def _wrap_text(text: str, max_chars: int) -> list[str]:
+    """Greedy word-wrap that never breaks a word across lines."""
+    words = text.split()
+    lines: list[str] = []
+    current = ""
+    for word in words:
+        candidate = f"{current} {word}".strip() if current else word
+        if len(candidate) <= max_chars or not current:
+            current = candidate
+        else:
+            lines.append(current)
+            current = word
+    if current:
+        lines.append(current)
+    return lines
+
+
 def build_dialogue_bubble(text: str) -> str:
-    return f"""<g id="dialogue" transform="translate(1220, 380)">
-  <rect x="0" y="0" width="600" height="100" rx="20" fill="#fffaf0" stroke="#5d3a26" stroke-width="4"/>
-  <polygon points="50,100 80,100 30,140" fill="#fffaf0" stroke="#5d3a26" stroke-width="4"/>
-  <polygon points="53,102 78,102 33,137" fill="#fffaf0"/>
-  <text x="30" y="60" font-size="24" fill="#3a2820" font-family="Georgia, serif">{text}</text>
+    """Draw a speech bubble sized to fit the wrapped text, anchored top-right."""
+    font_size = 24
+    char_w = font_size * 0.55  # Georgia serif avg glyph width factor
+    line_h = int(font_size * 1.25)
+    pad_x, pad_y = 30, 30
+    max_chars = 42  # ~keeps bubble narrow enough not to overlap Lucy
+
+    lines = _wrap_text(text, max_chars)
+    longest = max((len(l) for l in lines), default=0)
+    bubble_w = int(longest * char_w) + pad_x * 2
+    bubble_h = line_h * len(lines) + pad_y * 2 - 6
+    bubble_w = max(bubble_w, 220)  # minimum aesthetic width
+
+    # Anchor top-right of the scene, tail pointing toward Lucy's mouth (lower-left).
+    x_pos = SCENE_WIDTH - bubble_w - 60
+    y_pos = 380
+
+    text_lines = "\n    ".join(
+        f'<tspan x="{pad_x}" dy="{line_h if i > 0 else 0}">{line}</tspan>'
+        for i, line in enumerate(lines)
+    )
+    tail_top_x1 = 50
+    tail_top_x2 = 80
+    tail_tip_x = 30
+    tail_tip_y = bubble_h + 40
+
+    return f"""<g id="dialogue" transform="translate({x_pos}, {y_pos})">
+  <rect x="0" y="0" width="{bubble_w}" height="{bubble_h}" rx="20" fill="#fffaf0" stroke="#5d3a26" stroke-width="4"/>
+  <polygon points="{tail_top_x1},{bubble_h} {tail_top_x2},{bubble_h} {tail_tip_x},{tail_tip_y}" fill="#fffaf0" stroke="#5d3a26" stroke-width="4"/>
+  <polygon points="{tail_top_x1 + 3},{bubble_h + 2} {tail_top_x2 - 2},{bubble_h + 2} {tail_tip_x + 3},{tail_tip_y - 3}" fill="#fffaf0"/>
+  <text y="{pad_y + font_size - 6}" font-size="{font_size}" fill="#3a2820" font-family="Georgia, serif">
+    {text_lines}
+  </text>
 </g>"""
 
 
@@ -463,6 +555,14 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
   </text>
 </g>'''
 
+    # Hanging shop sign: open during active hours, closed when Lucy sleeps.
+    sign_file = SCENE_SIGN_OPEN if lighting["label"] in ("dawn", "day", "dusk") else SCENE_SIGN_CLOSED
+    sign_uri = composite_layers((sign_file,))
+    sign_img = (
+        f'<image href="{sign_uri}" x="{SIGN_X}" y="{SIGN_Y}" '
+        f'width="{SIGN_W}" height="{SIGN_H}"/>'
+    )
+
     lighting_rect = (
         f'<rect x="0" y="0" width="{SCENE_WIDTH}" height="{SCENE_HEIGHT}" '
         f'fill="{lighting["color"]}" opacity="{lighting["opacity"]}"/>'
@@ -485,6 +585,7 @@ def build_scene(pose: str, lighting: dict, workload: int, dialogue: str | None =
   {fg_img}
   {arm_img}
   {bracelet_glow}
+  {sign_img}
   {zzz_group}
   {lighting_rect}
   {bubble}
@@ -501,8 +602,8 @@ def update_readme_footer(pose: str, lighting_label: str, commits_24h: int) -> No
     content = README.read_text(encoding="utf-8")
     new_block = (
         f"{marker_start}\n"
-        f"<sub>Scène : **{pose}** · lumière : **{lighting_label}** · "
-        f"commits 24h : **{commits_24h}** · maj : {now}</sub>\n"
+        f"<sub>Scene: **{pose}** · lighting: **{lighting_label}** · "
+        f"commits 24h: **{commits_24h}** · updated: {now}</sub>\n"
         f"{marker_end}"
     )
     if marker_start in content and marker_end in content:

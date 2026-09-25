@@ -29,7 +29,10 @@ jobs:
       - name: Generate scene
         env:
           GITHUB_USER: LeDeutsch
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # PROFILE_PAT (PAT with read:user scope) enables commit counting across
+          # all repos (public + private). Falls back to the default GITHUB_TOKEN
+          # if the secret is missing (public repos only).
+          GITHUB_TOKEN: ${{ secrets.PROFILE_PAT || secrets.GITHUB_TOKEN }}
         run: python scripts/generate_scene.py
 
       - name: Commit if changed
