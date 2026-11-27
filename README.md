@@ -34,7 +34,7 @@
 <!-- <p align="center"><img src="assets/bands/footer_band.png" width="100%" alt="Guild hall footer"></p> -->
 
 <!-- SCENE-META:START -->
-<sub>Scene: **sad** · lighting: **day** · commits (past 24h): **17** · updated: 2026-11-27 10:42 UTC</sub>
+<sub>Scene: **sad** · lighting: **dusk** · commits (past 24h): **20** · updated: 2026-11-27 19:52 UTC</sub>
 <!-- SCENE-META:END -->
 
 <sub>Art by **[Aome](https://www.fiverr.com/aome_art)** for backgrounds & props, **[VARO](https://www.fiverr.com/varotionist)** for Lucy · commercial use licensed · [CREDITS](CREDITS.md) · [LICENSE](LICENSE)</sub>
